@@ -1,0 +1,10 @@
+{
+    "Id": "PS-SCRIPTBLOCK-LOGGING",
+    "Name": "PowerShell Script Block Logging Check",
+    "Function": "fncCheckPSScriptBlockLogging",
+    "Category": "Logging & Monitoring",
+    "Scopes": ["Workstation", "Server", "DMZ"],
+    "RequiresAdmin": false,
+    "Enabled": true,
+    "Description": "Checks whether PowerShell Script Block Logging is enabled."
+}
