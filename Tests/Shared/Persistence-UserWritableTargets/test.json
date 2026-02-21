@@ -1,0 +1,10 @@
+{
+  "Id": "USER-PERSISTENCE-POINTS",
+  "Name": "User Persistence Points",
+  "Function": "fncGetUserPersistencePoints",
+  "Category": "Persistence",
+  "Scopes": ["Workstation", "Server", "DMZ"],
+  "Enabled": true,
+  "RequiresAdmin": false,
+  "Description": "Enumerates user-level persistence locations including Startup folders, HKCU Run keys, scheduled tasks, shell extensions, COM hijacks, explorer load points, OneDrive autoruns, Office add-ins, and flags writable persistence targets."
+}

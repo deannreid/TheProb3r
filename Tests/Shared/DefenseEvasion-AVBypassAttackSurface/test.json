@@ -1,0 +1,9 @@
+{
+  "Id": "DEFENSEEVADE-AV-BYPASS-ATTACK-SURFACE",
+  "Name": "AV Bypass Attack Surface",
+  "Function": "fncGetDefenseEvasionAVBypassAttackSurface",
+  "Category": "Defense Evasion",
+  "Scopes": ["Workstation", "Server", "DMZ"],
+  "RequiresAdmin": false,
+  "Description": "Enumerates Microsoft Defender exclusions (paths/processes/extensions), evaluates exploitability (user-writable/suspicious/wildcards), and correlates with execution surfaces (services, scheduled tasks, autoruns) to highlight practical AV bypass opportunities."
+}

@@ -1,0 +1,11 @@
+{
+    "Id": "IFEO-PERSISTENCE",
+    "Name": "IFEO & SilentProcessExit Persistence",
+    "Function": "fncGetIFEOAndSilentProcessExit",
+    "Category": "Persistence",
+    "Scopes": ["Workstation", "Server", "DMZ"],
+    "Enabled": true,
+    "RequiresAdmin": false,
+    "Description": "Detects persistence or execution hijack using IFEO Debugger and SilentProcessExit registry keys."
+  }
+  

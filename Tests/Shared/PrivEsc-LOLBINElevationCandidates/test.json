@@ -1,0 +1,9 @@
+{
+  "Id": "LOLBIN-ELEVATION-CANDIDATES",
+  "Name": "LOLBin Elevation Candidates",
+  "Function": "fncGetLolbinElevationCandidates",
+  "Category": "Privilege Escalation",
+  "Scopes": ["Workstation", "Server", "DMZ"],
+  "RequiresAdmin": false,
+  "Description": "Enumerates common LOLBins associated with UAC/auto-elevate abuse and checks for suspicious UAC hijack registry keys and AlwaysInstallElevated misconfiguration."
+}

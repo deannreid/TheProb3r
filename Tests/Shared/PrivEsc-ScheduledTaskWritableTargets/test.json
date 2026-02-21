@@ -1,0 +1,9 @@
+{
+  "Id": "SCHEDULED-TASK-PRIVESC-CANDIDATES",
+  "Name": "Scheduled Task Privilege Escalation Candidates",
+  "Function": "fncGetScheduledTaskPrivEscCandidates",
+  "Category": "Privilege Escalation",
+  "Scopes": ["Workstation", "Server", "DMZ"],
+  "RequiresAdmin": false,
+  "Description": "Identifies scheduled tasks running with high privilege principals that reference user-writable executables or directories."
+}

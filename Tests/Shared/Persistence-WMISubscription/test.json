@@ -1,0 +1,11 @@
+{
+    "Id": "WMI-PERSISTENCE-ENUM",
+    "Name": "WMI Persistence Enumeration",
+    "Function": "fncGetWMIPersistence",
+    "Category": "Persistence",
+    "Scopes": ["Workstation", "Server", "DMZ"],
+    "Enabled": true,
+    "RequiresAdmin": false,
+    "Description": "Enumerates WMI event filters, consumers, and bindings in root\\subscription, applies risk scoring, and detects writable or suspicious execution targets."
+  }
+  

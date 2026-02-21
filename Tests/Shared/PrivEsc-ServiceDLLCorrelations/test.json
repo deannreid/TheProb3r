@@ -1,0 +1,10 @@
+{
+  "Id": "PRIVESC-SERVICE-DLL-CORRELATION",
+  "Name": "Service + DLL Hijack Correlation",
+  "Function": "fncGetPrivEscServiceAndDllCorrelations",
+  "Category": "Privilege Escalation",
+  "Scopes": ["Workstation", "Server", "DMZ"],
+  "RequiresAdmin": false,
+  "Description": "Finds SYSTEM-owned, user-writable directories in DLL/binary search order and correlates ServiceDll registry loads."
+}
+  

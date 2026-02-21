@@ -1,0 +1,9 @@
+{
+  "Id": "WEAK-AUTORUN-BINARIES",
+  "Name": "Weak Autorun Binaries",
+  "Function": "fncGetWeakAutoRunBinaries",
+  "Category": "Privilege Escalation",
+  "Scopes": ["Workstation", "Server", "DMZ"],
+  "RequiresAdmin": false,
+  "Description": "Identifies SYSTEM-owned autorun executables under common application paths that are writable by the current user, indicating potential privilege escalation vectors."
+}

@@ -1,0 +1,9 @@
+{
+  "Id": "PRIVESC-SERVICE-PERMISSION-ABUSE",
+  "Name": "Weak Service Permission Abuse",
+  "Function": "fncGetPrivEscServicePermissionAbuse",
+  "Category": "Privilege Escalation",
+  "Scopes": ["Workstation", "Server", "DMZ"],
+  "RequiresAdmin": false,
+  "Description": "Detects services where the current user can modify configuration, start/stop, or alter security descriptors, potentially allowing privilege escalation."
+}
