@@ -2,3 +2,4 @@ ScriptName.log
 todo2.ps1
 /ProberCache
 Modules/AD/ProberCache/adProfile.json
+/Logs

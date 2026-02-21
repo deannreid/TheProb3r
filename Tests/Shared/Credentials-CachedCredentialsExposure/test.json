@@ -1,0 +1,9 @@
+{
+  "Id": "CREDENTIALS-CACHED-EXPOSURE",
+  "Name": "Cached Credential Exposure",
+  "Function": "fncGetCredentialsCachedExposure",
+  "Category": "Credential Exposure",
+  "Scopes": ["Workstation", "Server"],
+  "RequiresAdmin": true,
+  "Description": "Checks for cached domain credentials, WDigest plaintext exposure, and LSA protection settings that may allow credential harvesting."
+}

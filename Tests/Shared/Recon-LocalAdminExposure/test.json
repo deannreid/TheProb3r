@@ -1,0 +1,9 @@
+{
+  "Id": "RECON-LOCALADMIN-EXPOSURE",
+  "Name": "Local Administrator Exposure",
+  "Function": "fncGetReconLocalAdminExposure",
+  "Category": "Reconnaissance",
+  "Scopes": ["Workstation", "Server", "DMZ"],
+  "RequiresAdmin": false,
+  "Description": "Enumerates members of the local Administrators group and flags domain users/groups and unexpected principals that may enable privilege escalation or lateral movement."
+}

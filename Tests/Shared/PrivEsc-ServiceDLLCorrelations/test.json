@@ -7,4 +7,3 @@
   "RequiresAdmin": false,
   "Description": "Finds SYSTEM-owned, user-writable directories in DLL/binary search order and correlates ServiceDll registry loads."
 }
-  
