@@ -1,0 +1,10 @@
+{
+  "Id": "MOCK-FINDINGS",
+  "Name": "Mock Findings Generator",
+  "Function": "fncGenerateMockFindings",
+  "Category": "Diagnostics",
+  "Scopes": ["Workstation", "Server", "DMZ"],
+  "Enabled": true,
+  "RequiresAdmin": false,
+  "Description": "Injects synthetic findings for UI and export testing."
+}
