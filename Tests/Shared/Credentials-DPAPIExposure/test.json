@@ -1,0 +1,9 @@
+{
+  "Id": "CREDENTIALS-DPAPI-EXPOSURE",
+  "Name": "DPAPI Exposure",
+  "Function": "fncGetCredentialsDpapiExposure",
+  "Category": "Credential Exposure",
+  "Scopes": ["Workstation", "Server"],
+  "RequiresAdmin": false,
+  "Description": "Detects readable DPAPI masterkey folders, machine DPAPI blobs, and common credential storage locations accessible to low-privileged users."
+}

@@ -1,0 +1,9 @@
+{
+  "Id": "CREDENTIALS-BROWSER-SECRETS",
+  "Name": "Browser Credential Store Exposure",
+  "Function": "fncGetCredentialsBrowserSecretsExposure",
+  "Category": "Credential Exposure",
+  "Scopes": ["Workstation"],
+  "RequiresAdmin": false,
+  "Description": "Detects readable browser credential databases and encryption key stores accessible to low-privileged users."
+}

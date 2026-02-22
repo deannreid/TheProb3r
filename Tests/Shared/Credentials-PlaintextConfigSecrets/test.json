@@ -1,0 +1,9 @@
+{
+  "Id": "CREDENTIALS-PLAINTEXT-CONFIG",
+  "Name": "Plaintext Secret Exposure",
+  "Function": "fncGetCredentialsPlaintextConfigSecrets",
+  "Category": "Credential Exposure",
+  "Scopes": ["Workstation", "Server", "DMZ"],
+  "RequiresAdmin": false,
+  "Description": "Scans common configuration files and registry locations for potential plaintext secrets."
+}
