@@ -451,6 +451,109 @@ function fncSafeBackQuit {
     Write-Host "[Q] Quit"
 }
 
+function fncReadJsonFileSafe {
+    param(
+        [Parameter(Mandatory=$true)][string]$Path,
+        $Default = $null
+    )
+
+    try {
+        if (-not (Test-Path -LiteralPath $Path)) { return $Default }
+
+        $raw = Get-Content -LiteralPath $Path -Raw -ErrorAction Stop
+        if ([string]::IsNullOrWhiteSpace($raw)) { return $Default }
+
+        return ($raw | ConvertFrom-Json -ErrorAction Stop)
+    }
+    catch {
+        return $Default
+    }
+}
+
+function fncWriteJsonFileSafe {
+    param(
+        [Parameter(Mandatory=$true)][string]$Path,
+        [Parameter(Mandatory=$true)]$Object,
+        [int]$Depth = 15
+    )
+
+    try {
+        $json = $Object | ConvertTo-Json -Depth $Depth
+        Set-Content -LiteralPath $Path -Value $json -Encoding UTF8 -Force
+        return $true
+    }
+    catch {
+        return $false
+    }
+}
+
+function fncSafeHasProp {
+    param(
+        [Parameter(Mandatory=$true)]$Obj,
+        [Parameter(Mandatory=$true)][string]$Name
+    )
+    if ($null -eq $Obj) { return $false }
+    try { return ($Obj.PSObject.Properties.Name -contains $Name) } catch { return $false }
+}
+
+function fncSafeGetProp {
+    param(
+        [Parameter(Mandatory=$true)]$Obj,
+        [Parameter(Mandatory=$true)][string]$Name,
+        $Default = $null
+    )
+    if (-not (fncSafeHasProp $Obj $Name)) { return $Default }
+    try { return $Obj.$Name } catch { return $Default }
+}
+
+function fncToSafeString {
+    param($Value)
+
+    if ($null -eq $Value) { return "" }
+
+    try { return [string]$Value }
+    catch { return "" }
+}
+
+function fncGetUtcNowIso {
+    return (Get-Date).ToUniversalTime().ToString("o")
+}
+
+function fncToSafeString {
+    param($Value)
+    if ($null -eq $Value) { return "" }
+    return [string]$Value
+}
+
+function fncFormatColumn {
+    param(
+        [string]$Text,
+        [int]$Width
+    )
+
+    if ($null -eq $Text) { $Text = "" }
+
+    $t = [string]$Text
+
+    if ($t.Length -gt $Width) {
+        return $t.Substring(0, $Width - 3) + "..."
+    }
+
+    return $t.PadRight($Width)
+}
+
+function fncIsCacheFresh {
+    param(
+        [string]$Path,
+        [int]$MaxAgeHours = 24
+    )
+
+    if (-not (Test-Path $Path)) { return $false }
+
+    $age = (Get-Date) - (Get-Item $Path).LastWriteTime
+    return ($age.TotalHours -lt $MaxAgeHours)
+}
+
 Export-ModuleMember -Function @(
     "fncGetScriptDirectory",
     "fncInitProberState",
@@ -474,5 +577,13 @@ Export-ModuleMember -Function @(
     "fncSafeSectionHeader",
     "fncSafeDivider",
     "fncSafeMenuOption",
-    "fncSafeBackQuit"
+    "fncSafeBackQuit",
+    "fncSafeHasProp",
+    "fncSafeGetProp",
+    "fncToSafeString",
+    "fncGetUtcNowIso",
+    "fncReadJsonFileSafe",
+    "fncWriteJsonFileSafe",
+    "fncFormatColumn",
+    "fncIsCacheFresh"
 )
