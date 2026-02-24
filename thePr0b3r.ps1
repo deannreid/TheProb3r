@@ -110,10 +110,8 @@ function fncImportLocalModules {
     )
 
     $optional = @(
-        "FindingsExport.psm1",
-        "Build.psm1",
-        "IdentityTrust.psm1",
-        "SensitiveDataDiscovery.psm1"
+        "Integrations.NIST.psm1",
+        "Integrations.KEV.psm1"
     )
 
     switch ($global:LoggerMode) {
