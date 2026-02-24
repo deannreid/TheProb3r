@@ -6,7 +6,7 @@ function fncGetInterestingServiceAccounts {
 
     fncPrintMessage "Enumerating services running as non built-in accounts..." "info"
     fncPrintMessage "Starting service enumeration routine." "debug"
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     $interesting  = @()
     $serviceCount = 0
@@ -121,7 +121,7 @@ function fncGetInterestingServiceAccounts {
         Write-Host "-------------------------------------------"
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     # ----------------------------------------------------------
     # Finding Creation

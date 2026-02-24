@@ -6,7 +6,7 @@ function fncGetLateralMovementRemoteServiceExposure {
 
     fncPrintMessage "Enumerating lateral movement exposure via services..." "info"
     fncPrintMessage "Initialising service enumeration for remote abuse indicators." "debug"
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     $services = $null
 
@@ -76,7 +76,7 @@ function fncGetLateralMovementRemoteServiceExposure {
         fncPrintMessage "No lateral movement service exposure heuristics triggered." "success"
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 }
 
 Export-ModuleMember -Function fncGetLateralMovementRemoteServiceExposure

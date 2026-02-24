@@ -206,7 +206,7 @@ function fncShowReconColourKey {
     Write-Host "Unsigned Binary" -ForegroundColor Yellow
     Write-Host "Informational / Low Risk" -ForegroundColor Gray
     Write-Host "Offensive / Pivot Tool Detected" -ForegroundColor Cyan
-    Write-Host ""
+    fncPrintMessage "" "plain"
 }
 
 function fncSafeHasProp {
@@ -883,11 +883,11 @@ function fncGetReconInstalledSoftwareAdv {
     }
 
     if (Get-Command fncSafeSectionHeader -ErrorAction SilentlyContinue) {
-        Write-Host ""
+        fncPrintMessage "" "plain"
         fncSafeSectionHeader ("Installed Applications ({0} detected)" -f (fncSafeCount $entries))
         Write-Host "Note: This initial list is based on registry enumeration and heuristics. Runtime signals and vulnerability data will be correlated in subsequent steps." -ForegroundColor Yellow
         Write-Host "      The Vulnerability and Exploitability scan can be time-consuming if NVD enrichment is enabled." -ForegroundColor Yellow
-        Write-Host ""
+        fncPrintMessage "" "plain"
     }
     
     if ((fncSafeCount $entries) -gt 0) {

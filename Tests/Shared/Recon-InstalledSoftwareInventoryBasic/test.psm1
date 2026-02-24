@@ -6,7 +6,7 @@
 function fncGetReconInstalledSoftwareInventory {
 
     fncPrintMessage "Enumerating installed software (registry only)..." "info"
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     # Always use script scope for shared arrays
     $script:software       = @()
@@ -157,13 +157,13 @@ function fncGetReconInstalledSoftwareInventory {
     # ------------------------------------------------------------
     fncPrintSectionHeader "Installed Software (Registry Inventory)"
     Write-Host ("  -> Total Installed Applications: {0}" -f $script:software.Count)
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     $script:software |
         Sort-Object Name |
         Format-Table Name,Version,ExploitCount,ExploitLikelihood -AutoSize
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     fncPrintSectionHeader "Exploit Candidates (Searchsploit Density)"
 
@@ -175,7 +175,7 @@ function fncGetReconInstalledSoftwareInventory {
         fncPrintMessage "No high-density exploit candidates detected." "success"
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     fncPrintSectionHeader "Offensive / Recon Tooling"
 
@@ -187,7 +187,7 @@ function fncGetReconInstalledSoftwareInventory {
         fncPrintMessage "No obvious offensive tooling detected." "success"
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     try {
 

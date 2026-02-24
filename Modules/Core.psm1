@@ -404,14 +404,14 @@ function fncSafePrintMessage {
 
 function fncSafePause {
     if (fncCommandExists "fncRenderPause") { fncRenderPause; return }
-    Write-Host ""
+    fncPrintMessage "" "plain"
     Read-Host "Press Enter to continue" | Out-Null
 }
 
 function fncSafeRenderHeader {
     if (fncCommandExists "fncRenderHeader") { fncRenderHeader; return }
     #Clear-Host
-    Write-Host ""
+    fncPrintMessage "" "plain"
 }
 
 function fncSafeSectionHeader {

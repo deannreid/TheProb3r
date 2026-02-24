@@ -57,7 +57,7 @@ function fncGetHighPrivWritableBinaries {
 
     fncPrintMessage "Scanning filesystem for SYSTEM/Administrators-owned binaries writable by current user..." "info"
     fncPrintMessage "Initialising high-priv writable binary scan." "debug"
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     $currentIdentity = [System.Security.Principal.WindowsIdentity]::GetCurrent()
     if (-not $currentIdentity) {
@@ -102,7 +102,7 @@ function fncGetHighPrivWritableBinaries {
 
     fncPrintMessage ("Scanning roots (threaded): {0}" -f ($interestingRoots -join "; ")) "info"
     fncPrintMessage ("Interesting extensions: {0}" -f ($interestingExtensions -join ", ")) "debug"
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     # ----------------------------------------------------------
     # Parallel Root Scan
@@ -202,7 +202,7 @@ function fncGetHighPrivWritableBinaries {
         $scannedCount += $r.Count
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
     fncPrintMessage ("Filesystem scan completed. Files inspected: $scannedCount") "info"
     fncPrintMessage ("Total high-priv writable hits: {0}" -f $hits.Count) "debug"
 

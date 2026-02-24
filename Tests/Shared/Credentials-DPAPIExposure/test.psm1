@@ -6,7 +6,7 @@ function fncGetCredentialsDpapiExposure {
     fncSafeSectionHeader "DPAPI Exposure Analysis"
     fncSafePrintMessage "Checking DPAPI masterkey and machine blob exposure..." "info"
     fncSafePrintMessage "Evaluating ACL exposure beyond expected user context." "info"
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     $verboseMode = $false
     if ($global:config -and $global:config.DEBUG) { $verboseMode = $true }
@@ -99,10 +99,10 @@ function fncGetCredentialsDpapiExposure {
             }
         }
 
-        Write-Host ""
+        fncPrintMessage "" "plain"
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 }
 
 Export-ModuleMember -Function fncGetCredentialsDpapiExposure

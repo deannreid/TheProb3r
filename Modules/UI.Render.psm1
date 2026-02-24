@@ -28,7 +28,7 @@ function fncRenderHeader {
         Write-Host "Header rendering failed."
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 }
 
 function fncPrintStatus {
@@ -100,7 +100,7 @@ function fncRenderBackQuit {
 
 function fncRenderPause {
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
     try { Read-Host "Press Enter to continue" | Out-Null }
     catch {}
 }

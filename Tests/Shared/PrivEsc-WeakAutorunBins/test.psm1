@@ -7,7 +7,7 @@ function fncGetWeakAutoRunBinaries {
 
     fncPrintMessage "Scanning autoruns for SYSTEM-owned executables writable by current user..." "info"
     fncPrintMessage "Initialising autorun enumeration routine." "debug"
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     $currentUser = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
     fncPrintMessage ("Current user context: {0}" -f $currentUser) "debug"

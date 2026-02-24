@@ -191,7 +191,7 @@ function fncRescanTestModules {
                 } catch {}
             }
 
-            Write-Host ""
+            fncPrintMessage "" "plain"
         }
 
         fncPrintMessage ("Rescan complete. Tests loaded: {0}" -f $count) "success"

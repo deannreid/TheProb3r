@@ -29,7 +29,7 @@ function fncShowFindings {
         fncSafeMenuOption "6" "Info"
         fncSafeMenuOption "7" "Good"
 
-        Write-Host ""
+        fncPrintMessage "" "plain"
         fncSafeBackQuit
 
         $choice = Read-Host "Select filter"
@@ -95,7 +95,7 @@ function fncShowFindingsMenu {
         fncSafeMenuOption "1" "View Findings"
         fncSafeMenuOption "2" "Export Findings"
 
-        Write-Host ""
+        fncPrintMessage "" "plain"
         fncSafeBackQuit
 
         $choice = Read-Host "Select option"

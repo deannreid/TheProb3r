@@ -8,7 +8,7 @@ function fncGetTokenAndPrivilegeInfo {
 
     fncPrintMessage "Reviewing current token privileges and group memberships..." "info"
     fncPrintMessage "Initialising token posture enumeration." "debug"
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     # ----------------------------------------------------------
     # Identity Objects
@@ -74,7 +74,7 @@ function fncGetTokenAndPrivilegeInfo {
         fncPrintMessage ("Integrity detection exception: {0}" -f $_.Exception.Message) "debug"
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     # ----------------------------------------------------------
     # Group Memberships
@@ -147,7 +147,7 @@ function fncGetTokenAndPrivilegeInfo {
         fncPrintMessage "Token group list empty after enumeration." "debug"
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     # ----------------------------------------------------------
     # Privilege Enumeration
@@ -217,7 +217,7 @@ function fncGetTokenAndPrivilegeInfo {
         fncPrintMessage "None detected" "success"
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     # ----------------------------------------------------------
     # Findings Logic
@@ -264,7 +264,7 @@ function fncGetTokenAndPrivilegeInfo {
         fncPrintMessage "Indicator hit: groupList contains 'Delegation'." "debug"
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
     fncPrintMessage "Token posture enumeration complete." "debug"
 }
 

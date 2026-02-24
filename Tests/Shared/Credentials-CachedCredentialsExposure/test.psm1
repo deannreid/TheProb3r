@@ -6,7 +6,7 @@
 function fncGetCredentialsCachedExposure {
 
     fncPrintMessage "Checking cached credential exposure and workstation tiering posture..." "info"
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     # ------------------------------------------------------------
     # Require Admin
@@ -443,7 +443,7 @@ function fncGetCredentialsCachedExposure {
         fncPrintMessage ("Domain user profiles present: {0}" -f ($domainProfiles -join ", ")) "info"
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
     if ($cachedCount -gt 0 -and $runAsPPL -ne 1 -and $cgStatus -ne "Enabled") {
         fncPrintMessage "Cached credential extraction likely feasible if attacker gains local admin." "warning"
     }

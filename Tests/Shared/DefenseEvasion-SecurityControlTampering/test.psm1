@@ -7,7 +7,7 @@ function fncGetDefenseEvasionSecurityControlTampering {
 
     fncPrintMessage "Checking for security control tampering indicators..." "info"
     fncPrintMessage "Initialising security service tamper analysis." "debug"
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     # ==========================================================
     # Helpers
@@ -91,7 +91,7 @@ function fncGetDefenseEvasionSecurityControlTampering {
 
         if (-not $Items -or $Items.Count -eq 0) {
             fncPrintMessage "None detected." "success"
-            Write-Host ""
+            fncPrintMessage "" "plain"
             return
         }
 
@@ -113,7 +113,7 @@ function fncGetDefenseEvasionSecurityControlTampering {
             }
         }
 
-        Write-Host ""
+        fncPrintMessage "" "plain"
     }
 
     # ==========================================================
@@ -230,7 +230,7 @@ function fncGetDefenseEvasionSecurityControlTampering {
             -Recommendation "No action required."
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 }
 
 Export-ModuleMember -Function fncGetDefenseEvasionSecurityControlTampering

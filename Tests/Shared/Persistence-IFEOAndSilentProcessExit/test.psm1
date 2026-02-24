@@ -7,7 +7,7 @@ function fncGetIFEOAndSilentProcessExit {
 
     fncPrintMessage "Checking IFEO and SilentProcessExit persistence locations (advanced)..." "info"
     fncPrintMessage "Initialising IFEO persistence scan." "debug"
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     # ----------------------------------------------------------
     # Config / Heuristics
@@ -295,7 +295,7 @@ function fncGetIFEOAndSilentProcessExit {
             fncPrintMessage ("Failed enumerating IFEO root {0}" -f $root) "warning"
         }
 
-        Write-Host ""
+        fncPrintMessage "" "plain"
     }
 
     Write-Progress -Id 41 -Activity "Enumerating IFEO entries" -Completed
@@ -322,7 +322,7 @@ function fncGetIFEOAndSilentProcessExit {
 
     fncPrintMessage "IFEO persistence scan complete." "debug"
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 }
 
 Export-ModuleMember -Function fncGetIFEOAndSilentProcessExit

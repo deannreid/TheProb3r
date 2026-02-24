@@ -6,7 +6,7 @@ function fncGetScheduledTaskPrivEscCandidates {
 
     fncPrintMessage "Scanning scheduled tasks for high privilege principals and writable action targets..." "info"
     fncPrintMessage "Initialising scheduled task privilege escalation scan." "debug"
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     $currentIdentity = [System.Security.Principal.WindowsIdentity]::GetCurrent()
     $currentUser     = $currentIdentity.Name

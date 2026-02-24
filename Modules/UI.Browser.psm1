@@ -105,7 +105,7 @@ function fncShowTestsForCategory {
             $i++
         }
 
-        Write-Host ""
+        fncPrintMessage "" "plain"
         fncSafeMenuOption "B" "Back"
         fncSafeMenuOption "Q" "Quit"
 
@@ -195,7 +195,7 @@ function fncShowCategoryMenu {
             fncSafeMenuOption (fncSafeString ($i + 1)) (fncSafeString $cats[$i])
         }
 
-        Write-Host ""
+        fncPrintMessage "" "plain"
         fncSafeBackQuit
 
         $choice = Read-Host "Select category"
@@ -229,16 +229,16 @@ function fncSelectEnvironmentScope {
 
     while ($true) {
 
-        Write-Host ""
+        fncPrintMessage "" "plain"
         Write-Host "Select Environment Scope:"
-        Write-Host ""
+        fncPrintMessage "" "plain"
         Write-Host "[1] DMZ"
         Write-Host "[2] Workstation"
         Write-Host "[3] Server"
         Write-Host "[4] Domain"
         Write-Host "[5] All"
         Write-Host "[Q] Back"
-        Write-Host ""
+        fncPrintMessage "" "plain"
 
         $choice = Read-Host "Select option"
         if ([string]::IsNullOrWhiteSpace($choice)) { continue }
@@ -289,7 +289,7 @@ function fncSearchAndRunTest {
             fncSafeRenderTestEntry ($i + 1) $tests[$i]
         }
 
-        Write-Host ""
+        fncPrintMessage "" "plain"
         fncSafeBackQuit
 
         $choice = Read-Host "Select test"

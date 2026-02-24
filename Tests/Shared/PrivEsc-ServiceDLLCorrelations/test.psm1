@@ -6,7 +6,7 @@
 function fncGetPrivEscServiceAndDllCorrelations {
 
     fncPrintMessage "Correlating service directories, PATH search-order, and ServiceDll loads for priv-esc hints..." "info"
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     # ==========================================================
     # Helpers
@@ -275,7 +275,7 @@ function fncGetPrivEscServiceAndDllCorrelations {
     
         if (-not $Items -or $Items.Count -eq 0) {
             fncPrintMessage "None detected." "success"
-            Write-Host ""
+            fncPrintMessage "" "plain"
             return
         }
     
@@ -305,7 +305,7 @@ function fncGetPrivEscServiceAndDllCorrelations {
             }
         }
     
-        Write-Host ""
+        fncPrintMessage "" "plain"
     }
     
 
@@ -653,7 +653,7 @@ function fncGetPrivEscServiceAndDllCorrelations {
         fncPrintMessage ("Detected {0} correlated priv-esc surface(s)." -f $totalFinds) "warning"
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 }
 
 Export-ModuleMember -Function fncGetPrivEscServiceAndDllCorrelations

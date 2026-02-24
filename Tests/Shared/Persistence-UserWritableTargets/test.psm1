@@ -6,7 +6,7 @@
 function fncGetUserPersistencePoints {
 
     fncPrintMessage "Enumerating user-level persistence locations (plus)..." "info"
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     $currentUser = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
 
@@ -133,7 +133,7 @@ function fncGetUserPersistencePoints {
         } catch {}
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     # ==========================================================
     # 2) HKCU Run / RunOnce
@@ -181,7 +181,7 @@ function fncGetUserPersistencePoints {
         } catch {}
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     # ==========================================================
     # 3) Scheduled Task user persistence (HKCU tasks / user context)
@@ -243,7 +243,7 @@ function fncGetUserPersistencePoints {
         fncPrintMessage "Get-ScheduledTask cmdlet not available." "warning"
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     # ==========================================================
     # 4) Shell extensions (HKCU)
@@ -301,7 +301,7 @@ function fncGetUserPersistencePoints {
         } catch {}
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
 # ==========================================================
 # 5) User COM hijacks (HKCU Classes)
@@ -400,7 +400,7 @@ else {
     fncPrintMessage "HKCU CLSID hive not present." "info"
 }
 
-Write-Host ""
+fncPrintMessage "" "plain"
 
 
     # ==========================================================
@@ -452,7 +452,7 @@ Write-Host ""
         } catch {}
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     # ==========================================================
     # 7) Explorer load hijacks (HKCU)
@@ -532,7 +532,7 @@ Write-Host ""
         } catch {}
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     # ==========================================================
     # 8) OneDrive autorun abuse (HKCU)
@@ -585,7 +585,7 @@ Write-Host ""
         } catch {}
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     # ==========================================================
     # 9) Office Add-ins (HKCU)
@@ -657,7 +657,7 @@ Write-Host ""
         } catch {}
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     # ==========================================================
     # Summary
@@ -678,7 +678,7 @@ Write-Host ""
         fncPrintMessage ("Found {0} writable user persistence targets." -f $hitCount) "warning"
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 }
 
 Export-ModuleMember -Function fncGetUserPersistencePoints

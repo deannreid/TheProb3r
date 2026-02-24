@@ -87,7 +87,7 @@ function fncPrintSectionHeader {
     $safeTitle = ""
     try { $safeTitle = fncSafeString $Title } catch { $safeTitle = "$Title" }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     if (Get-Command fncWriteColour -ErrorAction SilentlyContinue) {
 
@@ -105,7 +105,7 @@ function fncPrintSectionHeader {
         Write-Host "=========|| $safeTitle ||========="
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 }
 
 function fncPrintMessage {
@@ -182,7 +182,7 @@ function fncPrintKey {
         fncWriteColour "                                  Running as: Unknown" ([System.ConsoleColor]::DarkGray)
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
     Write-Host "==================== Output Key ====================" -ForegroundColor Blue
 
     Write-Host "[!]" -NoNewline -ForegroundColor Red;      Write-Host " Special privilege or misconfiguration"

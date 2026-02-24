@@ -6,7 +6,7 @@
 function fncGetDefenseEvasionAVBypassAttackSurface {
 
     fncPrintMessage "Enumerating Defender exclusions and correlating practical AV-bypass attack surfaces..." "info"
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     # ==========================================================
     # Helpers (baseline-aligned)
@@ -202,7 +202,7 @@ function fncGetDefenseEvasionAVBypassAttackSurface {
 
         if (-not $Items -or $Items.Count -eq 0) {
             fncPrintMessage "None detected." "success"
-            Write-Host ""
+            fncPrintMessage "" "plain"
             return
         }
 
@@ -238,7 +238,7 @@ function fncGetDefenseEvasionAVBypassAttackSurface {
             }
         }
 
-        Write-Host ""
+        fncPrintMessage "" "plain"
     }
 
     function fncNormalisePrefix {
@@ -685,7 +685,7 @@ function fncGetDefenseEvasionAVBypassAttackSurface {
         fncPrintMessage ("Enumerated {0} exclusion surface(s)." -f ($surfaces | Measure-Object).Count) "warning"
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 }
 
 Export-ModuleMember -Function fncGetDefenseEvasionAVBypassAttackSurface

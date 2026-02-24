@@ -961,7 +961,7 @@ function fncPrintOperatorRiskBanner {
         }
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     if (fncCommandExists "fncWriteColour") {
         fncWriteColour "{~} OPERATOR RISK: " ([System.ConsoleColor]::Cyan) -NoNewLine
@@ -972,7 +972,7 @@ function fncPrintOperatorRiskBanner {
         Write-Host ("OPERATOR RISK: {0} ({1}/100)" -f $risk.Level, $risk.Score)
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     function fncColourLine {
         param(
@@ -1079,7 +1079,7 @@ function fncPrintOperatorRiskBanner {
     $mde = [string](fncGetTeleVal "MDE" "Unknown")
     fncColourLine "MDE Sensor" $mde ($mde -eq "Healthy")
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 }
 
 Export-ModuleMember -Function @(

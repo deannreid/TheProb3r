@@ -6,7 +6,7 @@ function fncGetExecutionLOLBINSurfaces {
 
     fncPrintMessage "Enumerating LOLBIN execution surfaces..." "info"
     fncPrintMessage "Initialising LOLBIN service execution analysis." "debug"
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     $lolbins = @(
         "powershell.exe","pwsh.exe","cmd.exe","mshta.exe",
@@ -108,7 +108,7 @@ function fncGetExecutionLOLBINSurfaces {
         fncPrintMessage "No LOLBIN execution surfaces detected." "success"
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 }
 
 Export-ModuleMember -Function fncGetExecutionLOLBINSurfaces

@@ -6,7 +6,7 @@ function fncGetUnquotedServicePaths {
 
     fncPrintMessage "Scanning for unquoted service paths with writable segments..." "info"
     fncPrintMessage "Initialising unquoted service path analysis." "debug"
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     $currentIdentity = [System.Security.Principal.WindowsIdentity]::GetCurrent()
     $currentUser     = $currentIdentity.Name
@@ -172,7 +172,7 @@ function fncGetUnquotedServicePaths {
     # ----------------------------------------------------------
     # Summary
     # ----------------------------------------------------------
-    Write-Host ""
+    fncPrintMessage "" "plain"
     fncPrintMessage ("Unquoted service path scan complete. Services inspected: {0}" -f $serviceCount) "info"
     fncPrintMessage ("Total vulnerable candidates identified: {0}" -f $hits.Count) "debug"
 

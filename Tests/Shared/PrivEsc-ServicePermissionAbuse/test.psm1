@@ -7,7 +7,7 @@ function fncGetPrivEscServicePermissionAbuse {
 
     fncPrintMessage "Enumerating service ACL permissions for potential privilege escalation..." "info"
     fncPrintMessage "Initialising service permission abuse scan." "debug"
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     # ==========================================================
     # Helpers
@@ -97,7 +97,7 @@ function fncGetPrivEscServicePermissionAbuse {
 
         if (-not $Items -or $Items.Count -eq 0) {
             fncPrintMessage "None detected." "success"
-            Write-Host ""
+            fncPrintMessage "" "plain"
             return
         }
 
@@ -114,7 +114,7 @@ function fncGetPrivEscServicePermissionAbuse {
                 -ForegroundColor DarkGray
         }
 
-        Write-Host ""
+        fncPrintMessage "" "plain"
     }
 
     # ==========================================================

@@ -111,7 +111,8 @@ function fncImportLocalModules {
 
     $optional = @(
         "Integrations.NIST.psm1",
-        "Integrations.KEV.psm1"
+        "Integrations.KEV.psm1",
+        "Integrations.Azure.psm1"
     )
 
     switch ($global:LoggerMode) {

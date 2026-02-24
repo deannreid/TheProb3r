@@ -36,9 +36,12 @@ function fncShowMainMenu {
             fncRenderMenuOption "4" "Search Test"
             fncRenderMenuOption "5" "Show Framework Status"
             fncRenderMenuOption "6" "Show Findings"
-            fncRenderMenuOption "7" "Active Directory Console"
 
-            Write-Host ""
+            fncPrintMessage "" "plain"
+            fncSafeSectionHeader "AD & Cloud Tools"
+            fncRenderMenuOption "7" "Active Directory Console"
+            fncRenderMenuOption "8" "Azure Console"
+            fncPrintMessage "" "plain"
             fncRenderMenuOption "R" "Rescan Tests"
             fncRenderMenuOption "Q" "Quit"
 
@@ -57,7 +60,7 @@ function fncShowMainMenu {
             Write-Host "[Q] Quit"
         }
 
-        Write-Host ""
+        fncPrintMessage "" "plain"
 
         $choice = Read-Host "Select option"
         if ([string]::IsNullOrWhiteSpace($choice)) { continue }

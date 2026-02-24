@@ -5,7 +5,7 @@ function fncGetCredentialsBrowserSecretsExposure {
 
     fncSafeSectionHeader "Browser Credential Store Exposure"
     fncSafePrintMessage "Scanning for readable browser credential databases..." "info"
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     $verboseMode = $false
     if ($global:config -and $global:config.DEBUG) { $verboseMode = $true }
@@ -85,7 +85,7 @@ function fncGetCredentialsBrowserSecretsExposure {
             }
         }
 
-        Write-Host ""
+        fncPrintMessage "" "plain"
     }
 
     $chromiumRoots = @(
@@ -120,7 +120,7 @@ function fncGetCredentialsBrowserSecretsExposure {
             fncTestBrowserFile -Path $localState -BrowserName $browser.Name -Severity "Medium"
         }
 
-        Write-Host ""
+        fncPrintMessage "" "plain"
     }
 
     $firefoxRoot = "$env:APPDATA\Mozilla\Firefox\Profiles"
@@ -140,7 +140,7 @@ function fncGetCredentialsBrowserSecretsExposure {
             fncTestBrowserFile -Path $modProfile -BrowserName "Firefox" -Severity "Medium"
         }
 
-        Write-Host ""
+        fncPrintMessage "" "plain"
     }
 
     $safariRoot = "$env:LOCALAPPDATA\Apple Computer\Safari"
@@ -189,10 +189,10 @@ function fncGetCredentialsBrowserSecretsExposure {
             fncTestBrowserFile -Path $path -BrowserName "Safari" -Severity "High"
         }
 
-        Write-Host ""
+        fncPrintMessage "" "plain"
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 }
 
 Export-ModuleMember -Function fncGetCredentialsBrowserSecretsExposure

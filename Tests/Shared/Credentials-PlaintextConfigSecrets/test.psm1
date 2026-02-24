@@ -12,9 +12,9 @@ function fncGetCredentialsPlaintextConfigSecrets {
     fncSafePrintMessage "Note: This module performs LIMITED local scanning only." "warning"
     fncSafePrintMessage "For deep scanning (DFS shares, SMB paths, remote hosts, verbose secret hunting)," "warning"
     fncSafePrintMessage "use APMAC: https://github.com/deannreid/APMAC" "warning"
-    Write-Host ""
+    fncPrintMessage "" "plain"
     fncSafePrintMessage "Run as Administrator for comprehensive results. Limited access may yield false negatives." "info"
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     $verboseMode = $false
     if ($global:config -and $global:config.DEBUG) { $verboseMode = $true }
@@ -141,10 +141,10 @@ function fncGetCredentialsPlaintextConfigSecrets {
             fncSafePrintMessage ("No plaintext secrets detected in $root" -f $matchCount) "success"
         }
 
-        Write-Host ""
+        fncPrintMessage "" "plain"
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 }
 
 Export-ModuleMember -Function fncGetCredentialsPlaintextConfigSecrets

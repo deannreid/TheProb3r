@@ -6,7 +6,7 @@
 function fncGetReconLocalAdminExposure {
 
     fncPrintMessage "Enumerating local Administrators group membership..." "info"
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     $members = @()
     try {
@@ -122,7 +122,7 @@ function fncGetReconLocalAdminExposure {
         Write-Host ("  -> {0} ({1})" -f $m.Name,$m.ObjectClass)
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     if ($exposed.Count -eq 0) {
 

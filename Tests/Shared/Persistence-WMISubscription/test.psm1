@@ -7,7 +7,7 @@ function fncGetWMIPersistence {
 
     fncPrintMessage "Enumerating WMI event subscriptions in root\subscription (WMI persistence)..." "info"
     fncPrintMessage "Initialising WMI persistence scan." "debug"
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     # ----------------------------------------------------------
     # Heuristics
@@ -321,7 +321,7 @@ function fncGetWMIPersistence {
 
     Write-Progress -Id 51 -Activity "Enumerating WMI bindings" -Completed
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     if ($hitCount -eq 0) {
         fncPrintMessage "WMI objects were present, but no bindings were processed." "info"
@@ -331,7 +331,7 @@ function fncGetWMIPersistence {
 
     fncPrintMessage "WMI persistence scan complete." "debug"
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 }
 
 Export-ModuleMember -Function fncGetWMIPersistence

@@ -201,7 +201,7 @@ function fncPrintFindings {
 
     try { fncLog "DEBUG" ("Printing findings with filter: {0}" -f $SeverityFilter) } catch {}
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     $items = fncSafeArray $global:ProberState.Findings
     if ((fncSafeCount $items) -eq 0) {
@@ -274,7 +274,7 @@ function fncPrintFindings {
             fncRenderDivider
         }
 
-        Write-Host ""
+        fncPrintMessage "" "plain"
     }
 }
 

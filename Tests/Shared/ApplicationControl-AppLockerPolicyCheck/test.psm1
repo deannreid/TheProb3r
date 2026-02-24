@@ -6,7 +6,7 @@ function fncCheckAppLockerPolicy {
 
     fncPrintMessage "Enumerating AppLocker configuration..." "info"
     fncPrintMessage "Starting AppLocker inspection routine." "debug"
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     $appIdSvcRunning = $false
 
@@ -35,7 +35,7 @@ function fncCheckAppLockerPolicy {
         fncPrintMessage ("Exception while querying AppIDSvc: {0}" -f $_.Exception.Message) "debug"
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     # ----------------------------------------------------------
     # Check if AppLocker cmdlet exists
@@ -167,7 +167,7 @@ function fncCheckAppLockerPolicy {
         fncPrintMessage ("{0} Rules : {1}" -f $type,$count) "info"
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     # ----------------------------------------------------------
     # Show Sample Rules
@@ -196,7 +196,7 @@ function fncCheckAppLockerPolicy {
         fncPrintMessage "No individual rules found." "warning"
     }
 
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     # ----------------------------------------------------------
     # Evaluate Policy Strength

@@ -6,7 +6,7 @@ function fncGetLolbinElevationCandidates {
 
     fncPrintMessage "Scanning for LOLBins that can potentially elevate (UAC / auto-elevate abuse surface)..." "info"
     fncPrintMessage "Initialising LOLBin elevation surface enumeration." "debug"
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     $lolbins = @(
         @{
@@ -146,7 +146,7 @@ function fncGetLolbinElevationCandidates {
                 Write-Host ("  Type       : {0}" -f $lb.SubCategory)
                 Write-Host ("  Notes      : {0}" -f $lb.Description)
                 Write-Host ("  Paths      : {0}" -f ($presentPaths -join ", "))
-                Write-Host ""
+                fncPrintMessage "" "plain"
 
                 $fingerprint = "LOLBIN_PRESENT|" + $lb.Name
                 $tag = fncShortHashTag $fingerprint
@@ -174,10 +174,10 @@ function fncGetLolbinElevationCandidates {
     # ----------------------------------------------------------
     # UAC hijack registry keys (higher confidence misconfig)
     # ----------------------------------------------------------
-    Write-Host ""
+    fncPrintMessage "" "plain"
     fncPrintMessage "Checking common UAC hijack registry keys for suspicious presence..." "info"
     fncPrintMessage "Beginning HKCU handler override inspection." "debug"
-    Write-Host ""
+    fncPrintMessage "" "plain"
 
     foreach ($lb in ($lolbins | Where-Object { $_.UacHijackReg })) {
 
@@ -202,7 +202,7 @@ function fncGetLolbinElevationCandidates {
 
             Write-Host ("Potential UAC hijack key present for {0}: {1}" -f $lb.Name,$regPath)
             Write-Host ("  Default value: {0}" -f (fncSafeString $defaultValue))
-            Write-Host ""
+            fncPrintMessage "" "plain"
 
             fncPrintMessage "UAC hijack key identified." "debug"
 
@@ -233,7 +233,7 @@ function fncGetLolbinElevationCandidates {
                     }
 
                     Write-Host ("  DelegateExecute present: {0} (Value: '{1}')" -f $delegatePath,(fncSafeString $delegateVal))
-                    Write-Host ""
+                    fncPrintMessage "" "plain"
 
                     fncPrintMessage "DelegateExecute key identified." "debug"
 
@@ -285,7 +285,7 @@ function fncGetLolbinElevationCandidates {
 
         Write-Host ("AlwaysInstallElevated (HKLM): {0}" -f (fncSafeString $aiHKLM))
         Write-Host ("AlwaysInstallElevated (HKCU): {0}" -f (fncSafeString $aiHKCU))
-        Write-Host ""
+        fncPrintMessage "" "plain"
 
         if ($aiHKLM -eq 1 -and $aiHKCU -eq 1) {
 
