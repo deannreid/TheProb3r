@@ -51,7 +51,6 @@ function fncShowMainMenu {
             Write-Host "[4] Search Test"
             Write-Host "[5] Show Framework Status"
             Write-Host "[6] Show Findings"
-            Write-Host "[7] Active Directory Console"
             Write-Host ""
             Write-Host "[R] Rescan Tests"
             Write-Host "[Q] Quit"
