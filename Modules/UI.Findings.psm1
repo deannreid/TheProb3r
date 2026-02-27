@@ -27,7 +27,6 @@ function fncShowFindings {
         fncSafeMenuOption "4" "Medium"
         fncSafeMenuOption "5" "Low"
         fncSafeMenuOption "6" "Info"
-        fncSafeMenuOption "7" "Good"
 
         Write-Host ""
         fncSafeBackQuit
@@ -43,7 +42,6 @@ function fncShowFindings {
             "4" { fncPrintFindings -SeverityFilter "Medium" }
             "5" { fncPrintFindings -SeverityFilter "Low" }
             "6" { fncPrintFindings -SeverityFilter "Info" }
-            "7" { fncPrintFindings -SeverityFilter "Good" }
 
             "B" { return }
             "Q" { return }

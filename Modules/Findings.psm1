@@ -49,7 +49,6 @@ function fncGetSeverityRank {
         "Medium"   { return 4 }
         "Low"      { return 3 }
         "Info"     { return 2 }
-        "Good"     { return 1 }
         default    { return 0 }
     }
 }
@@ -63,7 +62,6 @@ function fncGetSeverityColour {
         "Medium"   { return "Yellow" }
         "Low"      { return "Cyan" }
         "Info"     { return "DarkGray" }
-        "Good"     { return "Green" }
         default    { return "White" }
     }
 }
@@ -77,7 +75,6 @@ function fncGetSeveritySymbol {
         "Medium"   { return "[!]" }
         "Low"      { return "[i]" }
         "Info"     { return "[i]" }
-        "Good"     { return "[+]" }
         default    { return "[?]" }
     }
 }
@@ -103,7 +100,6 @@ function fncPrintFindingsSummary {
         Medium   = fncSafeCount (fncSafeArray ($all | Where-Object Severity -eq "Medium"))
         Low      = fncSafeCount (fncSafeArray ($all | Where-Object Severity -eq "Low"))
         Info     = fncSafeCount (fncSafeArray ($all | Where-Object Severity -eq "Info"))
-        Good     = fncSafeCount (fncSafeArray ($all | Where-Object Severity -eq "Good"))
     }
 
     try {
@@ -136,19 +132,15 @@ function fncPrintFindingsSummary {
             # --- Info ---
             $iColour = if ($counts.Info -gt 0) { [System.ConsoleColor]::White } else { [System.ConsoleColor]::DarkGray }
             fncWriteColour ("Info:{0} |" -f $counts.Info) $iColour -NoNewLine
-
-            # --- Good ---
-            $gColour = if ($counts.Good -gt 0) { [System.ConsoleColor]::Green } else { [System.ConsoleColor]::DarkGray }
-            fncWriteColour ("Good:{0}" -f $counts.Good) $gColour
         }
         else {
 
-            Write-Host ("Findings => Critical:{0} | High:{1} | Medium:{2} | Low:{3} | Info:{4} | Good:{5}" -f `
-                $counts.Critical,$counts.High,$counts.Medium,$counts.Low,$counts.Info,$counts.Good)
+            Write-Host ("Findings => Critical:{0} | High:{1} | Medium:{2} | Low:{3} | Info:{4} " -f `
+                $counts.Critical,$counts.High,$counts.Medium,$counts.Low,$counts.Info)
         }
 
-        fncLog "INFO" ("Findings summary => C:{0} H:{1} M:{2} L:{3} I:{4} G:{5}" -f `
-            $counts.Critical,$counts.High,$counts.Medium,$counts.Low,$counts.Info,$counts.Good)
+        fncLog "INFO" ("Findings summary => C:{0} H:{1} M:{2} L:{3} I:{4}" -f `
+            $counts.Critical,$counts.High,$counts.Medium,$counts.Low,$counts.Info)
 
     }
     catch {
@@ -193,89 +185,65 @@ function fncFormatFinding {
 }
 
 function fncPrintFindings {
+  param(
+    [ValidateSet("All","Critical","High","Medium","Low","Info")]
+    [string]$SeverityFilter = "All"
+  )
 
-    param(
-        [ValidateSet("All","Critical","High","Medium","Low","Info","Good")]
-        [string]$SeverityFilter = "All"
-    )
+  $items = fncSafeArray $global:ProberState.Findings
+  if ((fncSafeCount $items) -eq 0) { fncPrintMessage "No findings to display." "info"; return }
 
-    try { fncLog "DEBUG" ("Printing findings with filter: {0}" -f $SeverityFilter) } catch {}
+  if ($SeverityFilter -ne "All") {
+    $items = fncSafeArray ($items | Where-Object Severity -eq $SeverityFilter)
+  }
+  if ((fncSafeCount $items) -eq 0) { fncPrintMessage ("No findings matched filter: {0}" -f $SeverityFilter) "info"; return }
 
+  $items = fncSafeArray (
+    $items | Sort-Object @{ Expression = { fncGetSeverityRank $_.Severity }; Descending = $true }, Category, Title
+  )
+
+  fncPrintSectionHeader ("FINDINGS ({0})" -f $SeverityFilter.ToUpperInvariant())
+
+  foreach ($f in $items) {
+    $severity = fncSafeString $f.Severity
+    $colour   = fncGetSeverityColour $severity
+    $symbol   = fncGetSeveritySymbol $severity
+
+    $header = "$symbol [$severity] $($f.Id) | $($f.Category) | $($f.Title)"
+
+    if (fncCommandExists "fncWriteColour") {
+      fncWriteColour $header $colour
+      fncWriteColour ("Status: $($f.Status)") White
+      fncWriteColour ("Message: $($f.Message)") White
+
+      # show remediation blocks only if provided
+      if ($f.PSObject.Properties.Name -contains "Exploitation" -and -not [string]::IsNullOrWhiteSpace([string]$f.Exploitation)) {
+        fncWriteColour ("Exploitation: $($f.Exploitation)") White
+      }
+
+      # Prefer Remediation if present, else fall back to Recommendation
+      $rem = ""
+      if ($f.PSObject.Properties.Name -contains "Remediation") { $rem = [string]$f.Remediation }
+      if ([string]::IsNullOrWhiteSpace($rem)) { $rem = [string]$f.Recommendation }
+      if (-not [string]::IsNullOrWhiteSpace($rem)) {
+        fncWriteColour ("Remediation: $rem") White
+      }
+
+      if ($f.PSObject.Properties.Name -contains "Evidence" -and $f.Evidence) {
+        fncWriteColour ("Evidence: $($f.Evidence)") DarkGray
+      }
+
+      fncWriteColour ("Timestamp: $($f.Timestamp)") DarkGray
+    }
+    else {
+      Write-Host $header
+      Write-Host "Status: $($f.Status)"
+      Write-Host "Message: $($f.Message)"
+    }
+
+    if (fncCommandExists "fncRenderDivider") { fncRenderDivider }
     Write-Host ""
-
-    $items = fncSafeArray $global:ProberState.Findings
-    if ((fncSafeCount $items) -eq 0) {
-
-        try { fncLog "INFO" "No findings available for display" } catch {}
-
-        fncPrintMessage "No findings to display." "info"
-        return
-    }
-
-    if ($SeverityFilter -ne "All") {
-        $items = fncSafeArray ($items | Where-Object Severity -eq $SeverityFilter)
-    }
-
-    if ((fncSafeCount $items) -eq 0) {
-
-        try { fncLog "INFO" ("No findings matched filter: {0}" -f $SeverityFilter) } catch {}
-
-        fncPrintMessage ("No findings matched filter: {0}" -f $SeverityFilter) "info"
-        return
-    }
-
-    $items = fncSafeArray (
-        $items | Sort-Object `
-            @{ Expression = { fncGetSeverityRank $_.Severity }; Descending = $true },
-            Category,
-            Title
-    )
-
-    try {
-        fncPrintSectionHeader ("FINDINGS ({0})" -f $SeverityFilter.ToUpperInvariant())
-    }
-    catch {
-        Write-Host "FINDINGS ($SeverityFilter)"
-    }
-
-    foreach ($f in $items) {
-
-        try { fncLog "DEBUG" ("Rendering finding: {0}" -f (fncSafeString $f.Id)) } catch {}
-
-        $severity = fncSafeString $f.Severity
-        $colour   = fncGetSeverityColour $severity
-        $symbol   = fncGetSeveritySymbol $severity
-
-        $header = "$symbol [$severity] $($f.Id) | $($f.Category) | $($f.Title)"
-
-        if (fncCommandExists "fncWriteColour") {
-
-            fncWriteColour $header $colour
-            fncWriteColour ("Status: $($f.Status)") White
-            fncWriteColour ("Message: $($f.Message)") White
-            fncWriteColour ("Recommendation: $($f.Recommendation)") White
-
-            if ($f.PSObject.Properties.Name -contains "Evidence" -and $f.Evidence) {
-                fncWriteColour ("Evidence: $($f.Evidence)") DarkGray
-            }
-
-            fncWriteColour ("Timestamp: $($f.Timestamp)") DarkGray
-        }
-        else {
-
-            Write-Host $header
-            Write-Host "Status: $($f.Status)"
-            Write-Host "Message: $($f.Message)"
-            Write-Host "Recommendation: $($f.Recommendation)"
-            Write-Host "Timestamp: $($f.Timestamp)"
-        }
-
-        if (fncCommandExists "fncRenderDivider") {
-            fncRenderDivider
-        }
-
-        Write-Host ""
-    }
+  }
 }
 
 # ------------------------------------------------------------

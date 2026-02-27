@@ -301,41 +301,48 @@ function fncInitFindings {
 }
 
 function fncAddFinding {
+  param(
+    [Parameter(Mandatory=$true)][string]$Id,
 
-    param(
-        [Parameter(Mandatory=$true)][string]$Id,
-        [string]$Category = "Uncategorised",
-        [string]$Title = "",
-        [ValidateSet("Good","Info","Low","Medium","High","Critical")]
-        [string]$Severity = "Info",
-        [string]$Status = "",
-        [string]$Message = "",
-        [string]$Recommendation = ""
-    )
+    [string]$Category = "Uncategorised",
+    [string]$Title = "",
 
-    fncLog "DEBUG" ("Adding finding: {0} ({1})" -f $Id,$Severity)
+    [ValidateSet("Info","Low","Medium","High","Critical")]
+    [string]$Severity = "Info",
 
-    if (-not $global:ProberState.Findings) {
-        $global:ProberState.Findings = @()
-    }
+    [string]$Status = "",
+    [string]$Message = "",
 
-    $keep = @()
-    foreach ($f in $global:ProberState.Findings) {
-        if ($f.Id -ne $Id) { $keep += $f }
-    }
+    [string]$Recommendation = "",
 
-    $global:ProberState.Findings = $keep
+    [string]$Exploitation = "",
+    [string]$Remediation  = ""
+  )
 
-    $global:ProberState.Findings += [pscustomobject]@{
-        Id             = $Id
-        Category       = $Category
-        Title          = $Title
-        Severity       = $Severity
-        Status         = $Status
-        Message        = $Message
-        Recommendation = $Recommendation
-        Timestamp      = Get-Date
-    }
+  fncLog "DEBUG" ("Adding finding: {0} ({1})" -f $Id,$Severity)
+
+  if (-not $global:ProberState.Findings) { $global:ProberState.Findings = @() }
+
+  $keep = @()
+  foreach ($f in $global:ProberState.Findings) {
+    if ($f.Id -ne $Id) { $keep += $f }
+  }
+  $global:ProberState.Findings = $keep
+
+  $global:ProberState.Findings += [pscustomobject]@{
+    Id           = $Id
+    Category     = $Category
+    Title        = $Title
+    Severity     = $Severity
+    Status       = $Status
+    Message      = $Message
+
+    Recommendation = $Recommendation
+    Exploitation   = $Exploitation
+    Remediation    = $Remediation
+
+    Timestamp    = Get-Date
+  }
 }
 
 function fncRegisterConsoleBreakHandler {

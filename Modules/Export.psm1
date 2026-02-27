@@ -84,15 +84,21 @@ function fncExportFindingsToCsv {
     foreach ($f in @($global:ProberState.Findings)) {
 
         $rows += [pscustomobject]@{
-            ExportedAt     = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss")
-            Id             = fncNormaliseCsvField ($f.Id)
-            Category       = fncNormaliseCsvField ($f.Category)
-            Title          = fncNormaliseCsvField ($f.Title)
-            Severity       = fncNormaliseCsvField ($f.Severity)
-            Status         = fncNormaliseCsvField ($f.Status)
-            Message        = fncNormaliseCsvField ($f.Message) 8000
-            Recommendation = fncNormaliseCsvField ($f.Recommendation) 8000
-            Evidence       = fncNormaliseCsvField ($f.Evidence) 8000
+        ExportedAt       = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss")
+        Id               = fncNormaliseCsvField ($f.Id)
+        Category         = fncNormaliseCsvField ($f.Category)
+        Title            = fncNormaliseCsvField ($f.Title)
+        Severity         = fncNormaliseCsvField ($f.Severity)
+        Status           = fncNormaliseCsvField ($f.Status)
+        Message          = fncNormaliseCsvField ($f.Message) 8000
+
+        Exploitation     = fncNormaliseCsvField ($f.Exploitation) 8000
+        Remediation      = fncNormaliseCsvField ($f.Remediation) 8000
+
+        # keep legacy column for backwards compatibility
+        Recommendation   = fncNormaliseCsvField ($f.Recommendation) 8000
+
+        Evidence         = fncNormaliseCsvField ($f.Evidence) 8000
         }
     }
 

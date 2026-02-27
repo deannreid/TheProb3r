@@ -62,7 +62,7 @@ function fncShowTestsForCategory {
 
     param(
         [Parameter(Mandatory=$true)][string]$Category,
-        [ValidateSet('All','Workstation','Server','Domain','DMZ')]
+        [ValidateSet('All','Workstation','Server','Domain','DMZ','Cloud','SaaS','Container','Network','WebApp')]
         [string]$Scope = "All"
     )
 
@@ -141,7 +141,7 @@ function fncShowTestsForCategory {
 function fncShowCategoryMenu {
 
     param(
-        [ValidateSet('All','Workstation','Server','Domain','DMZ')]
+        [ValidateSet('All','Workstation','Server','Domain','DMZ','Cloud','SaaS','Container','Network','WebApp')]
         [string]$Scope = "All"
     )
 
@@ -236,7 +236,12 @@ function fncSelectEnvironmentScope {
         Write-Host "[2] Workstation"
         Write-Host "[3] Server"
         Write-Host "[4] Domain"
-        Write-Host "[5] All"
+        Write-Host "[5] Cloud"
+        Write-Host "[6] SaaS"
+        Write-Host "[7] Container"
+        Write-Host "[8] Network"
+        Write-Host "[9] WebApp"
+        Write-Host "[A] All"
         Write-Host "[Q] Back"
         Write-Host ""
 
@@ -244,17 +249,18 @@ function fncSelectEnvironmentScope {
         if ([string]::IsNullOrWhiteSpace($choice)) { continue }
 
         switch ($choice.ToUpper()) {
-
-            "1" { return "DMZ" }
-            "2" { return "Workstation" }
-            "3" { return "Server" }
-            "4" { return "Domain" }
-            "5" { return "All" }
-            "Q" { return $null }
-
-            default {
-                fncSafePrintMessage "Invalid selection." "warning"
-            }
+        "1" { return "DMZ" }
+        "2" { return "Workstation" }
+        "3" { return "Server" }
+        "4" { return "Domain" }
+        "5" { return "Cloud" }
+        "6" { return "SaaS" }
+        "7" { return "Container" }
+        "8" { return "Network" }
+        "9" { return "WebApp" }
+        "A" { return "All" }
+        "Q" { return $null }
+        default { fncSafePrintMessage "Invalid selection." "warning" }
         }
     }
 }
