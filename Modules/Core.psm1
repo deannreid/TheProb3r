@@ -301,9 +301,11 @@ function fncInitFindings {
 }
 
 function fncAddFinding {
+
   param(
     [Parameter(Mandatory=$true)][string]$Id,
 
+    [string]$TestId = "",
     [string]$Category = "Uncategorised",
     [string]$Title = "",
 
@@ -319,15 +321,245 @@ function fncAddFinding {
     [string]$Remediation  = ""
   )
 
-  fncLog "DEBUG" ("Adding finding: {0} ({1})" -f $Id,$Severity)
+  fncLog "DEBUG" ("Adding finding: {0} ({1})" -f $Id, $Severity)
 
-  if (-not $global:ProberState.Findings) { $global:ProberState.Findings = @() }
-
-  $keep = @()
-  foreach ($f in $global:ProberState.Findings) {
-    if ($f.Id -ne $Id) { $keep += $f }
+  if (-not $global:ProberState.Findings) {
+    $global:ProberState.Findings = @()
   }
-  $global:ProberState.Findings = $keep
+
+  $global:ProberState.Findings = @(
+    $global:ProberState.Findings |
+      Where-Object { $_ -and $_.Id -ne $Id }
+  )
+
+  $testMeta = $null
+
+  try {
+    if (-not [string]::IsNullOrWhiteSpace($TestId) -and
+        $global:ProberState -and
+        $global:ProberState.Tests) {
+
+      $testMeta = @(
+        $global:ProberState.Tests |
+          Where-Object { $_ -and $_.Id -eq $TestId } |
+          Select-Object -First 1
+      )[0]
+    }
+  }
+  catch {
+    fncLogException $_.Exception "fncAddFinding metadata lookup"
+  }
+
+  $mitre = @()
+  $cwe   = @()
+  $nist  = @()
+  $refs  = @()
+
+  $primaryCategory = $null
+  $subCategories   = @()
+
+  $scopes         = @()
+  $requiresAdmin  = $false
+  $enabled        = $true
+  $schemaVersion  = $null
+  $testName       = $null
+  $testFunction   = $null
+  $testDesc       = $null
+
+  if ($null -ne $testMeta) {
+
+    try {
+
+      if ($testMeta.PSObject.Properties.Name -contains "SchemaVersion") {
+        $schemaVersion = $testMeta.SchemaVersion
+      }
+
+      $testName     = $testMeta.Name
+      $testFunction = $testMeta.Function
+      $testDesc     = $testMeta.Description
+
+      if ($testMeta.Category -and
+          $testMeta.Category.PSObject.Properties.Name -contains "Primary") {
+
+        $primaryCategory = $testMeta.Category.Primary
+
+        if ($testMeta.Category.PSObject.Properties.Name -contains "Subcategories") {
+          $subCategories = @($testMeta.Category.Subcategories)
+        }
+      }
+
+      if ($testMeta.Scopes) {
+        $scopes = @($testMeta.Scopes)
+      }
+
+      if ($null -ne $testMeta.RequiresAdmin) {
+        $requiresAdmin = [bool]$testMeta.RequiresAdmin
+      }
+
+      if ($null -ne $testMeta.Enabled) {
+        $enabled = [bool]$testMeta.Enabled
+      }
+
+      if ($testMeta.Mappings) {
+
+        if ($testMeta.Mappings.MitreAttack) {
+
+            $seenMitre = @{}
+
+            foreach ($m in @($testMeta.Mappings.MitreAttack)) {
+
+                if (-not $m) { continue }
+
+                $techId   = ""
+                $techName = ""
+                $tactic   = ""
+                $url      = ""
+
+                if ($schemaVersion -ge 5 -and
+                    $m.PSObject.Properties.Name -contains "Technique") {
+
+                    $techObj = $m.Technique
+                    $tacObj  = $m.Tactic
+
+                    if ($techObj -and $techObj.Id) {
+
+                        $techId = $techObj.Id
+
+                        if ($techObj.SubTechnique -and
+                            -not [string]::IsNullOrWhiteSpace($techObj.SubTechnique)) {
+
+                            $techId = "$($techObj.Id).$($techObj.SubTechnique)"
+                        }
+
+                        $techName = $techObj.Name
+                        $url      = $techObj.Url
+                    }
+
+                    if ($tacObj -and $tacObj.Name) {
+                        $tactic = $tacObj.Name
+                    }
+                }
+
+                elseif ($m.Technique) {
+
+                    $techId = $m.Technique
+
+                    if ($m.SubTechnique -and
+                        -not [string]::IsNullOrWhiteSpace($m.SubTechnique)) {
+
+                        $techId = "$($m.Technique).$($m.SubTechnique)"
+                    }
+
+                    $techName = $m.Name
+                    $tactic   = $m.Tactic
+                    $url      = $m.Url
+                }
+
+                if (-not [string]::IsNullOrWhiteSpace($techId) -and
+                    -not $seenMitre.ContainsKey($techId)) {
+
+                    $mitre += [pscustomobject]@{
+                        Id     = $techId
+                        Name   = $techName
+                        Tactic = $tactic
+                        Url    = $url
+                    }
+
+                    $seenMitre[$techId] = $true
+                }
+            }
+        }
+
+        if ($testMeta.Mappings.CWE) {
+
+            foreach ($c in @($testMeta.Mappings.CWE)) {
+
+                if (-not $c) { continue }
+
+                $id   = ""
+                $name = ""
+                $url  = ""
+
+                if ($schemaVersion -ge 5 -and
+                    $c.PSObject.Properties.Name -contains "Weakness") {
+
+                    $w = $c.Weakness
+
+                    if ($w -and $w.Id) {
+                        $id   = $w.Id
+                        $name = $w.Name
+                        $url  = $w.Url
+                    }
+                }
+
+                elseif ($c.Id) {
+
+                    $id   = $c.Id
+                    $name = $c.Name
+                    $url  = $c.Url
+                }
+
+                if (-not [string]::IsNullOrWhiteSpace($id)) {
+
+                    $cwe += [pscustomobject]@{
+                        Id   = $id
+                        Name = $name
+                        Url  = $url
+                    }
+                }
+            }
+        }
+
+        if ($testMeta.Mappings.Nist) {
+
+            foreach ($n in @($testMeta.Mappings.Nist)) {
+
+                if (-not $n) { continue }
+
+                $id   = ""
+                $name = ""
+                $url  = ""
+
+                if ($schemaVersion -ge 5 -and
+                    $n.PSObject.Properties.Name -contains "Control") {
+
+                    $ctrl = $n.Control
+
+                    if ($ctrl -and $ctrl.Id) {
+                        $id   = $ctrl.Id
+                        $name = $ctrl.Name
+                        $url  = $ctrl.Url
+                    }
+                }
+
+                elseif ($n.Control) {
+
+                    $id   = $n.Control
+                    $name = $n.Name
+                    $url  = $n.Url
+                }
+
+                if (-not [string]::IsNullOrWhiteSpace($id)) {
+
+                    $nist += [pscustomobject]@{
+                        Id   = $id
+                        Name = $name
+                        Url  = $url
+                    }
+                }
+            }
+        }
+      }
+
+      if ($testMeta.References) {
+        $refs = @($testMeta.References)
+      }
+
+    }
+    catch {
+      fncLogException $_.Exception "fncAddFinding metadata extraction"
+    }
+  }
 
   $global:ProberState.Findings += [pscustomobject]@{
     Id           = $Id
@@ -341,7 +573,28 @@ function fncAddFinding {
     Exploitation   = $Exploitation
     Remediation    = $Remediation
 
-    Timestamp    = Get-Date
+    TestMeta = [pscustomobject]@{
+      SchemaVersion = $schemaVersion
+      Name          = $testName
+      Function      = $testFunction
+      Description   = $testDesc
+      Enabled       = $enabled
+      RequiresAdmin = $requiresAdmin
+      Scopes        = $scopes
+
+      Category = [pscustomobject]@{
+        Primary       = $primaryCategory
+        Subcategories = $subCategories
+      }
+
+      References = $refs
+    }
+
+    Mitre     = $mitre
+    CWE       = $cwe
+    NIST      = $nist
+
+    Timestamp = Get-Date
   }
 }
 

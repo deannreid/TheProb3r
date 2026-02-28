@@ -1,0 +1,2040 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ThePr0b3r - Security Report</title>
+
+  <!-- Bootstrap + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
+
+<style>
+  :root {
+    --bg-main: #050509;
+    --bg-main-alt: #050509;
+    --bg-card: #0b0f16;
+    --bg-card-soft: #121621;
+    --bg-sidebar: #050509;
+
+    --accent: #ef4444;
+    --accent-soft: rgba(239, 68, 68, 0.18);
+
+    --text-primary: #f9fafb;
+    --text-muted: #9ca3af;
+
+    --divider: #1f2933;
+
+    --success: #22c55e;
+    --danger:  #ef4444;
+    --warning: #fbbf24;
+    --info:    #60a5fa;
+
+    --radius-lg: 14px;
+    --radius-md: 10px;
+    --radius-sm: 8px;
+  }
+
+  /* ==== LIGHT THEME ==== */
+  html[data-theme="light"] {
+    --bg-main: #f3f4f6;
+    --bg-main-alt: #ffffff;
+    --bg-card: #ffffff;
+    --bg-card-soft: #f9fafb;
+    --bg-sidebar: #111827;
+
+    --accent: #b91c1c;
+    --accent-soft: rgba(185, 28, 28, 0.14);
+
+    --text-primary: #111827;
+    --text-muted: #6b7280;
+
+    --divider: #e5e7eb;
+
+    --success: #16a34a;
+    --danger:  #dc2626;
+    --warning: #facc15;
+    --info:    #2563eb;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background:
+      radial-gradient(circle at 0% 0%, rgba(248, 113, 113, 0.12) 0, transparent 55%),
+      var(--bg-main);
+    color: var(--text-primary);
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  html[data-theme="light"] body {
+    background:
+      radial-gradient(circle at 0% 0%, rgba(248, 113, 113, 0.16) 0, transparent 50%),
+      var(--bg-main);
+  }
+
+  /* Sidebar */
+  .sidebar {
+    background: var(--bg-sidebar);
+    min-height: 100vh;
+    border-right: 1px solid var(--divider);
+    position: sticky;
+    top: 0;
+  }
+
+  .sidebar h4 {
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  .sidebar h6 {
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    margin-top: 1.5rem;
+    margin-bottom: 0.4rem;
+    color: var(--text-muted);
+  }
+
+  .sidebar .nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    color: #e5e7ff;
+    padding: 9px 14px;
+    margin-bottom: 4px;
+    border-radius: var(--radius-md);
+    transition: all 0.15s ease-in-out;
+    font-size: 0.9rem;
+    opacity: 0.92;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .sidebar .nav-link .left {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .sidebar .nav-link i { font-size: 1rem; opacity: 0.9; }
+
+  .sidebar .nav-link:hover {
+    background: rgba(239, 68, 68, 0.14);
+    color: #ffffff;
+    transform: translateX(1px);
+    opacity: 1;
+  }
+
+  .sidebar .nav-link.active {
+    background-color: rgba(239, 68, 68, 0.18);
+    color: #ffffff;
+    font-weight: 500;
+    box-shadow: inset 2px 0 0 var(--accent);
+    opacity: 1;
+  }
+
+  .sidebar .count-pill {
+    min-width: 34px;
+    text-align: center;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.45);
+    color: #e5e7eb;
+    background: rgba(148, 163, 184, 0.08);
+  }
+
+  html[data-theme="light"] .sidebar .nav-link { color: #e5e7eb; }
+  html[data-theme="light"] .sidebar .count-pill { color: #e5e7eb; }
+
+  /* Topbar */
+  .topbar {
+    border-radius: var(--radius-lg);
+    background: linear-gradient(180deg, var(--bg-card-soft) 0%, #0a0e16 100%);
+    border: 1px solid rgba(148, 163, 184, 0.45);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.65rem 1.2rem;
+    margin-top: 1rem;
+    margin-bottom: 1.2rem;
+  }
+
+  html[data-theme="light"] .topbar {
+    background: #ffffff;
+    border-color: #fecaca;
+    box-shadow: 0 1px 0 rgba(248, 113, 113, 0.45);
+  }
+
+  .topbar-left-sub {
+    font-size: 0.75rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  .topbar-left-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+  }
+
+  /* Cards */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid rgba(31, 41, 55, 0.9);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6);
+  }
+
+  html[data-theme="light"] .card {
+    background: #ffffff;
+    border-color: #e5e7eb;
+    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+  }
+
+  .card-title {
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.55rem;
+  }
+
+  .metric-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+  }
+
+  /* Buttons (make them readable) */
+  .btn-accent {
+    background: linear-gradient(135deg, var(--accent) 0%, #7f1d1d 100%);
+    border: none;
+    color: white;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    font-size: 0.9rem;
+    padding: 0.45rem 0.95rem;
+    box-shadow: 0 0 16px rgba(239, 68, 68, 0.25);
+  }
+
+  .btn-accent:hover {
+    background: linear-gradient(135deg, #f97373 0%, #7f1d1d 100%);
+    color: #fff;
+    box-shadow: 0 0 18px rgba(239, 68, 68, 0.32);
+  }
+
+  .btn-outline-light {
+    border-color: rgba(148,163,184,0.6);
+    color: #e5e7eb;
+    background: transparent;
+  }
+
+  .btn-outline-light:hover {
+    background: rgba(148,163,184,0.12);
+    color: #ffffff;
+    border-color: rgba(248,113,113,0.55);
+  }
+
+  html[data-theme="light"] .btn-outline-light {
+    color: #111827;
+    border-color: rgba(17,24,39,0.25);
+  }
+
+  html[data-theme="light"] .btn-outline-light:hover {
+    background: rgba(185,28,28,0.10);
+    border-color: rgba(185,28,28,0.35);
+  }
+
+  /* Page containers */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* Findings list */
+  .findings-toolbar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .searchbar {
+    flex: 1;
+    min-width: 280px;
+  }
+
+  .searchbar input {
+    background: rgba(11, 15, 22, 0.55);
+    color: var(--text-primary);
+    border: 1px solid rgba(148,163,184,0.25);
+    border-radius: 12px;
+    padding: 10px 12px;
+    outline: none;
+    width: 100%;
+  }
+
+  html[data-theme="light"] .searchbar input {
+    background: #ffffff;
+    color: #111827;
+    border-color: #e5e7eb;
+  }
+
+  /* Severity left border per finding */
+  .finding {
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(148,163,184,0.18);
+    background: linear-gradient(180deg, rgba(18,22,33,0.6) 0%, rgba(11,15,22,0.9) 100%);
+    padding: 14px 14px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  html[data-theme="light"] .finding {
+    background: #ffffff;
+    border-color: #e5e7eb;
+  }
+
+  .finding::before {
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    bottom:0;
+    width: 4px;
+    background: transparent;
+    opacity: 0.95;
+  }
+
+  .finding[data-sev="Critical"]::before { background: #ef4444; }
+  .finding[data-sev="High"]::before     { background: #fb923c; }
+  .finding[data-sev="Medium"]::before   { background: #facc15; }
+  .finding[data-sev="Low"]::before      { background: #34d399; }
+  .finding[data-sev="Info"]::before     { background: #60a5fa; }
+
+  .finding-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .sev-pill {
+    border-radius: 999px;
+    padding: 0.18rem 0.55rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border: 1px solid rgba(148,163,184,0.35);
+    background: rgba(148,163,184,0.08);
+  }
+
+  .sev-pill.Critical { border-color: rgba(248,113,113,0.7); background: rgba(239,68,68,0.16); color: #fecaca; }
+  .sev-pill.High     { border-color: rgba(251,146,60,0.7);  background: rgba(251,146,60,0.12);  color: #fed7aa; }
+  .sev-pill.Medium   { border-color: rgba(234,179,8,0.65);  background: rgba(251,191,36,0.12);  color: #fde68a; }
+  .sev-pill.Low      { border-color: rgba(16,185,129,0.55); background: rgba(52,211,153,0.12); color: #a7f3d0; }
+  .sev-pill.Info     { border-color: rgba(96,165,250,0.70); background: rgba(59,130,246,0.14); color: #bfdbfe; }
+
+  .finding-title {
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .finding-sub {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  /* Metadata bubbles (click-to-filter) */
+  .meta-row {
+    display:flex;
+    gap:8px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+
+  .meta-bubble {
+    border-radius: 999px;
+    font-size: 0.75rem;
+    padding: 0.18rem 0.55rem;
+    border: 1px solid rgba(148,163,184,0.45);
+    background: rgba(148,163,184,0.08);
+    color: #e5e7eb;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  html[data-theme="light"] .meta-bubble {
+    color: #111827;
+    background: rgba(17,24,39,0.04);
+    border-color: rgba(17,24,39,0.12);
+  }
+
+  .meta-bubble:hover {
+    border-color: rgba(248,113,113,0.65);
+    color: var(--accent);
+  }
+
+  /* CVSS heat pill */
+  .cvss-pill {
+    border-radius: 8px;
+    padding: 4px 10px;
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: #0b0f16;
+    border: 1px solid rgba(0,0,0,0.25);
+  }
+
+  /* Accordion body */
+  .finding-body {
+    margin-top: 12px;
+    color: #e5e7eb;
+  }
+
+  html[data-theme="light"] .finding-body { color: #111827; }
+
+  .finding-body .label {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 4px;
+  }
+
+  .finding-body .box {
+    border: 1px solid rgba(148,163,184,0.18);
+    background: rgba(11,15,22,0.40);
+    border-radius: 12px;
+    padding: 12px;
+  }
+
+  html[data-theme="light"] .finding-body .box {
+    background: #f9fafb;
+    border-color: #e5e7eb;
+  }
+
+  /* Modal */
+  .modal-content {
+    background: var(--bg-card);
+    border: 1px solid rgba(148,163,184,0.25);
+    color: var(--text-primary);
+  }
+
+  /* Mobile tweaks */
+  @media (max-width: 767.98px) {
+    .sidebar { display: none; }
+    .topbar { margin-top: 0.5rem; border-radius: var(--radius-md); }
+    .card { border-radius: var(--radius-md); }
+  }
+
+  /* Make muted text actually readable in dark mode */
+  html[data-theme="dark"] .text-muted { color: #e5e7eb !important; opacity: 0.78; }
+.context-bubble {
+  border-radius: 999px;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.7rem;
+  border: 1px solid rgba(148,163,184,0.45);
+  background: rgba(148,163,184,0.08);
+  color: #e5e7eb;
+  letter-spacing: 0.05em;
+}
+
+.context-bubble.primary {
+  border-color: rgba(239,68,68,0.65);
+  background: rgba(239,68,68,0.18);
+  color: #fecaca;
+}
+
+.context-bubble.success {
+  border-color: rgba(34,197,94,0.55);
+  background: rgba(34,197,94,0.15);
+  color: #bbf7d0;
+}
+
+.context-bubble.warning {
+  border-color: rgba(251,191,36,0.55);
+  background: rgba(251,191,36,0.15);
+  color: #fde68a;
+}
+</style>
+</head>
+
+<body>
+
+  <!-- Toast Notifications -->
+  <div class="toast-container position-fixed top-0 end-0 p-3" id="toastHolder"></div>
+
+  <!-- Hamburger (Mobile Only) -->
+  <button class="btn btn-dark d-md-none m-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu">
+    <i class="bi bi-list"></i> Menu
+  </button>
+
+  <!-- Sidebar Mobile -->
+  <div class="offcanvas offcanvas-start d-md-none" tabindex="-1" id="offcanvasMenu">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title">🧬 ThePr0b3r</h5>
+      <button class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="d-grid gap-2">
+        <button class="btn btn-outline-light" onclick="setPage('overview')">Overview</button>
+        <button class="btn btn-outline-light" onclick="setPage('findings')">Findings</button>
+        <button class="btn btn-outline-light" onclick="openMitreOverlay()">MITRE Overlay</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="row">
+
+      <!-- Sidebar -->
+      <nav class="col-md-2 d-none d-md-block sidebar p-3">
+        <h4 class="text-light mb-4">🧬 ThePr0b3r</h4>
+
+        <h6>Dashboard</h6>
+        <div class="nav-link active" data-nav="page" data-page="overview" onclick="setPage('overview')">
+          <span class="left"><i class="bi bi-speedometer2"></i> Overview</span>
+          <span class="count-pill" id="countAll">0</span>
+        </div>
+        <div class="nav-link" data-nav="page" data-page="findings" onclick="setPage('findings')">
+          <span class="left"><i class="bi bi-flag"></i> Findings</span>
+          <span class="count-pill" id="countFindings">0</span>
+        </div>
+        <div class="nav-link" data-nav="page" data-page="mitre" onclick="openMitreOverlay()">
+          <span class="left"><i class="bi bi-diagram-3"></i> MITRE Overlay</span>
+          <span class="count-pill" id="countMitre">0</span>
+        </div>
+        <div class="nav-link" onclick="openNistOverlay()">
+          <span class="left"><i class="bi bi-shield-check"></i> NIST Overlay</span>
+          <span class="count-pill" id="countNist">0</span>
+        </div>
+
+        <div class="nav-link" onclick="openCweOverlay()">
+          <span class="left"><i class="bi bi-bug"></i> CWE Overlay</span>
+          <span class="count-pill" id="countCwe">0</span>
+        </div>
+
+        <h6>Severity</h6>
+        <div class="nav-link" data-nav="severity" data-sev="All" onclick="setSeverity('All')">
+          <span class="left">All</span>
+          <span class="count-pill" id="sevAll">0</span>
+        </div>
+        <div class="nav-link" data-nav="severity" data-sev="Critical" onclick="setSeverity('Critical')">
+          <span class="left" style="color:#fecaca;">Critical</span>
+          <span class="count-pill" id="sevCritical">0</span>
+        </div>
+        <div class="nav-link" data-nav="severity" data-sev="High" onclick="setSeverity('High')">
+          <span class="left" style="color:#fed7aa;">High</span>
+          <span class="count-pill" id="sevHigh">0</span>
+        </div>
+        <div class="nav-link" data-nav="severity" data-sev="Medium" onclick="setSeverity('Medium')">
+          <span class="left" style="color:#fde68a;">Medium</span>
+          <span class="count-pill" id="sevMedium">0</span>
+        </div>
+        <div class="nav-link" data-nav="severity" data-sev="Low" onclick="setSeverity('Low')">
+          <span class="left" style="color:#a7f3d0;">Low</span>
+          <span class="count-pill" id="sevLow">0</span>
+        </div>
+        <div class="nav-link" data-nav="severity" data-sev="Info" onclick="setSeverity('Info')">
+          <span class="left" style="color:#bfdbfe;">Info</span>
+          <span class="count-pill" id="sevInfo">0</span>
+        </div>
+
+        <h6>Categories</h6>
+
+        <div class="nav-link" data-nav="category" data-cat="All" onclick="setCategory('All')">
+          <span class="left">All Categories</span>
+          <span class="count-pill" id="catAll">0</span>
+        </div>
+
+        <div id="dynamicCategories"></div>
+      </nav>
+
+      <!-- Main Panel -->
+      <main class="col-md-10 ms-sm-auto px-4">
+
+        <!-- Topbar -->
+        <div class="topbar">
+          <div>
+            <div class="topbar-left-sub" id="topbarSub">Security Report</div>
+
+            <div class="d-flex align-items-center gap-3 flex-wrap">
+              <div class="topbar-left-title" id="topbarTitle">Overview</div>
+
+              <div id="runContextBar" class="d-flex gap-2 flex-wrap"></div>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-outline-light btn-sm" id="btnResetFilters" onclick="resetFilters()">
+              <i class="bi bi-arrow-counterclockwise"></i> Reset filters
+            </button>
+            <button id="themeToggle" class="btn btn-outline-light btn-sm" type="button" title="Toggle theme">
+              <i id="themeIcon" class="bi bi-moon-fill"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- OVERVIEW PAGE -->
+        <section id="page-overview" class="page active">
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="card p-3">
+              <div class="card-title">Severity Breakdown</div>
+              <canvas id="chartSeverity" height="220"></canvas>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card p-3">
+              <div class="card-title">Category Breakdown</div>
+              <canvas id="chartCategory" height="220"></canvas>
+            </div>
+          </div>
+
+          <div class="row g-4">
+            <div class="col-md-4">
+              <div class="card p-3">
+                <div class="card-title">MITRE Top Techniques</div>
+                <canvas id="chartMitre" height="220"></canvas>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="card p-3">
+                <div class="card-title">CWE Top Weaknesses</div>
+                <canvas id="chartCwe" height="220"></canvas>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="card p-3">
+                <div class="card-title">NIST Top Controls</div>
+                <canvas id="chartNist" height="220"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4 mt-1">
+          <div class="col-12">
+            <div class="card p-3">
+              <div class="card-title">Engagement Summary</div>
+
+              <!-- Quick Actions -->
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="meta-bubble" onclick="setPage('findings')">
+                  <i class="bi bi-flag"></i> View Findings
+                </span>
+
+                <span class="meta-bubble" onclick="openMitreOverlay()">
+                  <i class="bi bi-diagram-3"></i> MITRE Overlay
+                </span>
+
+                <span class="meta-bubble" onclick="openNistOverlay()">
+                  <i class="bi bi-shield-check"></i> NIST Overlay
+                </span>
+
+                <span class="meta-bubble" onclick="openCweOverlay()">
+                  <i class="bi bi-bug"></i> CWE Overlay
+                </span>
+
+                <span class="meta-bubble" onclick="setSeverity('Critical')">
+                  <i class="bi bi-exclamation-triangle"></i> Filter Critical
+                </span>
+
+                <span class="meta-bubble" onclick="setCategory('Active Directory')">
+                  <i class="bi bi-diagram-2"></i> Filter AD
+                </span>
+              </div>
+
+              <!-- External Framework References -->
+              <div class="mt-3">
+                <div class="metric-label mb-2">Framework References</div>
+
+                <div class="d-flex flex-wrap gap-2">
+
+                  <a class="meta-bubble"
+                    href="https://attack.mitre.org/"
+                    target="_blank">
+                    <i class="bi bi-box-arrow-up-right"></i> MITRE ATT&CK Matrix
+                  </a>
+
+                  <a class="meta-bubble"
+                    href="https://attack.mitre.org/techniques/enterprise/"
+                    target="_blank">
+                    <i class="bi bi-box-arrow-up-right"></i> Enterprise Techniques
+                  </a>
+
+                  <a class="meta-bubble"
+                    href="https://cwe.mitre.org/data/index.html"
+                    target="_blank">
+                    <i class="bi bi-box-arrow-up-right"></i> CWE List
+                  </a>
+
+                  <a class="meta-bubble"
+                    href="https://csrc.nist.gov/projects/risk-management/about-rmf"
+                    target="_blank">
+                    <i class="bi bi-box-arrow-up-right"></i> NIST RMF
+                  </a>
+
+                  <a class="meta-bubble"
+                    href="https://github.com/deannreid/TheProb3r"
+                    target="_blank">
+                    <i class="bi bi-box-arrow-up-right"></i> TheProb3r GitHub
+                  </a>                  
+                </div>
+              </div>
+
+              <!-- Footer Note -->
+              <div class="mt-3 text-muted">
+                Findings can be mapped to MITRE ATT&CK techniques, CWE weaknesses, and NIST 800-53 controls. 
+                Use overlays and filters to pivot between adversary behaviour, control coverage, and weakness classification.
+              </div>
+            </div>
+          </div>
+        </div>
+        </section>
+
+        <!-- FINDINGS PAGE -->
+        <section id="page-findings" class="page">
+          <div class="card p-3 mb-3">
+            <div class="findings-toolbar">
+              <div class="searchbar">
+                <input id="searchInput" type="text" placeholder="Search by title, category, MITRE, CWE, NIST..." />
+              </div>
+
+              <div class="d-flex gap-2">
+                <button class="btn btn-outline-light btn-sm" onclick="openMitreOverlay()">
+                  <i class="bi bi-diagram-3"></i> MITRE Overlay
+                </button>
+              </div>
+            </div>
+
+            <div class="mt-3 text-muted" id="activeFilterLine">Showing: All findings</div>
+          </div>
+
+          <div id="findingsList" class="d-flex flex-column gap-3"></div>
+        </section>
+      </main>
+    </div>
+  </div>
+  <div class="modal fade" id="mitreModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">MITRE Overlay</h5>
+          <button class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="mitreBody"></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+
+const RUN_CONTEXT = {};
+const FINDINGS = [];
+
+function renderRunContext() {
+
+  const host  = RUN_CONTEXT.hostname || "Unknown Host";
+  const ip    = RUN_CONTEXT.ip || "";
+  const user  = RUN_CONTEXT.user || "Unknown User";
+  const priv  = RUN_CONTEXT.privilege || "Unknown";
+  const type  = RUN_CONTEXT.hostType || "Unknown";
+  const runId = RUN_CONTEXT.runId || "N/A";
+
+  const container = document.getElementById("runContextBar");
+  if (!container) return;
+
+  const privClass =
+    priv.toLowerCase().includes("admin") ? "primary" :
+    priv.toLowerCase().includes("low")   ? "warning" :
+    "success";
+
+  container.innerHTML = `
+    <span class="context-bubble">
+      <i class="bi bi-hdd-network"></i> ${host}${ip ? " / " + ip : ""}
+    </span>
+
+    <span class="context-bubble">
+      <i class="bi bi-person"></i> ${user}
+    </span>
+
+    <span class="context-bubble ${privClass}">
+      ${priv}
+    </span>
+
+    <span class="context-bubble">
+      ${type}
+    </span>
+
+    <span class="context-bubble">
+      Run ${runId}
+    </span>
+  `;
+}
+
+const state = {
+  page: "overview",
+  severity: "All",
+  category: "All",
+  search: ""
+};
+
+function showToast(msg, type = 'info') {
+  const color = {
+    success: '#22c55e',
+    error:   '#ef4444',
+    info:    '#4b5563'
+  }[type] || '#4b5563';
+
+  const toast = document.createElement('div');
+  toast.className = 'toast align-items-center text-white border-0 show mb-2';
+  toast.style.backgroundColor = color;
+  toast.innerHTML = `
+    <div class="d-flex">
+      <div class="toast-body">${escapeHtml(msg)}</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>`;
+  document.getElementById('toastHolder').appendChild(toast);
+  setTimeout(() => toast.remove(), 4500);
+}
+
+const themeToggleBtn = document.getElementById('themeToggle');
+const themeIcon = document.getElementById('themeIcon');
+
+function setTheme(mode) {
+  document.documentElement.setAttribute('data-theme', mode);
+  localStorage.setItem('notac3-theme', mode);
+  themeIcon.className = mode === 'dark' ? 'bi bi-moon-fill' : 'bi bi-sun-fill';
+}
+
+themeToggleBtn.addEventListener('click', () => {
+  const current = document.documentElement.getAttribute('data-theme') || 'dark';
+  setTheme(current === 'dark' ? 'light' : 'dark');
+});
+
+(function initTheme() {
+  const saved = localStorage.getItem('notac3-theme') || 'dark';
+  setTheme(saved);
+})();
+
+function setActiveNav(group, valueKey, value) {
+  document.querySelectorAll(`.sidebar .nav-link[data-nav="${group}"]`).forEach(el => {
+    const attr = el.getAttribute(`data-${valueKey}`);
+    el.classList.toggle('active', attr === value);
+  });
+}
+
+function setActivePageNav(page) {
+  document.querySelectorAll('.sidebar .nav-link[data-nav="page"]').forEach(el => {
+    el.classList.toggle('active', el.getAttribute('data-page') === page);
+  });
+}
+
+function setPage(page) {
+  state.page = page;
+
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(`page-${page}`).classList.add('active');
+
+  setActivePageNav(page);
+
+  const topbarTitle = document.getElementById('topbarTitle');
+  topbarTitle.textContent = page === 'overview' ? 'Overview' : 'Findings';
+
+  if (page === 'findings') {
+    applyFiltersAndRender();
+  }
+}
+
+function setSeverity(sev) {
+  state.severity = sev;
+  setActiveNav("severity", "sev", sev);
+  setPage("findings");
+  applyFiltersAndRender();
+}
+
+function setCategory(cat) {
+  state.category = cat;
+  setActiveNav("category", "cat", cat);
+  setPage("findings");
+  applyFiltersAndRender();
+}
+
+function resetFilters() {
+  state.severity = "All";
+  state.category = "All";
+  state.search = "";
+  document.getElementById('searchInput').value = "";
+
+  setActiveNav("severity", "sev", "All");
+  setActiveNav("category", "cat", "All");
+
+  if (state.page !== "findings") setPage("findings");
+  applyFiltersAndRender();
+  showToast("Filters reset.", "success");
+}
+
+function buildDynamicCategories() {
+
+  const container = document.getElementById("dynamicCategories");
+  container.innerHTML = "";
+
+  const map = countBy("category");
+
+  const sorted = Array.from(map.entries())
+                      .sort((a,b) => b[1] - a[1]);
+
+  for (const [cat, count] of sorted) {
+
+    const node = document.createElement("div");
+    node.className = "nav-link";
+    node.setAttribute("data-nav", "category");
+    node.setAttribute("data-cat", cat);
+    node.onclick = () => setCategory(cat);
+
+    node.innerHTML = `
+      <span class="left">${cat}</span>
+      <span class="count-pill">${count}</span>
+    `;
+
+    container.appendChild(node);
+  }
+
+  document.getElementById("catAll").textContent = FINDINGS.length;
+}
+
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  state.search = (e.target.value || "").trim().toLowerCase();
+  applyFiltersAndRender();
+});
+
+function escapeHtml(str) {
+  return String(str ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function matchSearch(f) {
+  if (!state.search) return true;
+
+  const search = state.search.toLowerCase().trim();
+
+  const mitreIds = (f.mitre || []).map(m =>
+    (typeof m === "string" ? m : m.Id || "").toLowerCase()
+  );
+
+  const cweIds = (f.cwe || []).map(c =>
+    (typeof c === "string" ? c : c.Id).toLowerCase()
+  );
+
+  const nistIds = (
+    f.nistObjects && f.nistObjects.length
+      ? f.nistObjects
+      : (f.nist || [])
+  ).map(n =>
+    (typeof n === "string"
+      ? n
+      : (n.id || n.Id || "")
+    ).toLowerCase()
+  );
+
+  if (search.startsWith("mitre:")) {
+    const value = search.replace("mitre:", "");
+    return mitreIds.some(x => x.includes(value));
+  }
+
+  if (search.startsWith("nist:")) {
+    const value = search.replace("nist:", "");
+    return nistIds.some(x => x.includes(value));
+  }
+
+  if (search.startsWith("cwe:")) {
+    const value = search.replace("cwe:", "");
+    return cweIds.some(x => x.includes(value));
+  }
+
+  const blob = [
+    f.title,
+    f.category,
+    f.severity,
+    f.status,
+    f.time,
+    ...mitreIds,
+    ...cweIds,
+    ...nistIds
+  ].join(" ").toLowerCase();
+
+  return blob.includes(search);
+}
+
+function openCreatePoc(findingId) {
+
+  const f = FINDINGS.find(x => x.id === findingId);
+  if (!f) return;
+
+  const storageKey = `poc_${findingId}`;
+  const saved = localStorage.getItem(storageKey);
+  const content = saved || generatePocTemplate(f);
+
+  const body = `
+    <div class="mb-3">
+      <strong>${escapeHtml(f.title)}</strong>
+      <div class="text-muted">${escapeHtml(f.id)}</div>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-lg-6">
+        <div class="label">Markdown Editor</div>
+        <textarea id="pocEditor"
+                  class="form-control"
+                  style="min-height:400px;
+                         background:var(--bg-card-soft);
+                         color:var(--text-primary);
+                         border:1px solid var(--divider);">${escapeHtml(content)}</textarea>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="label">Preview</div>
+        <div id="pocPreview"
+             class="box"
+             style="min-height:400px; overflow:auto;"></div>
+      </div>
+    </div>
+
+    <div class="mt-3 d-flex gap-2">
+      <button class="btn btn-accent btn-sm"
+              onclick="exportPocPDF('${findingId}')">
+        Export PDF
+      </button>
+
+      <button class="btn btn-outline-light btn-sm"
+              onclick="savePocToLocal('${findingId}')">
+        Save
+      </button>
+
+      <button class="btn btn-outline-light btn-sm"
+              onclick="clearSavedPoc('${findingId}')">
+        Clear Saved
+      </button>
+    </div>
+  `;
+
+  document.querySelector("#mitreModal .modal-title").textContent = "Proof of Concept Builder";
+  document.getElementById('mitreBody').innerHTML = body;
+
+  new bootstrap.Modal(document.getElementById('mitreModal')).show();
+
+  initMarkdownLive(findingId);
+}
+
+function initMarkdownLive(findingId) {
+
+  const editor = document.getElementById("pocEditor");
+  const preview = document.getElementById("pocPreview");
+  const storageKey = `poc_${findingId}`;
+
+  function render() {
+    preview.innerHTML = marked.parse(editor.value, {
+      mangle: false,
+      headerIds: false
+    });
+    localStorage.setItem(storageKey, editor.value);
+  }
+
+  editor.addEventListener("input", render);
+  render();
+}
+
+function generatePocTemplate(f) {
+  return `
+  <style>
+    /* Dark and light theme colors from the HTML */
+    :root {
+      --bg-main: #050509;
+      --bg-card: #0b0f16;
+      --text-primary: #f9fafb;
+      --accent: #ef4444;
+    }
+
+    html[data-theme="light"] {
+      --bg-main: #f3f4f6;
+      --bg-card: #ffffff;
+      --text-primary: #111827;
+      --accent: #b91c1c;
+    }
+
+    body {
+      background: var(--bg-main);
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      padding: 40px;
+      font-size: 14px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    h2, h3 {
+      font-size: 1.5rem;
+      color: var(--accent);
+      margin-top: 20px;
+    }
+
+    .section {
+      margin-bottom: 25px;
+      padding: 15px;
+      background-color: var(--bg-card);
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .label {
+      font-weight: bold;
+      color: var(--text-primary);
+    }
+
+    .content {
+      padding: 10px;
+      background-color: #ffffff;
+      margin-top: 10px;
+      border-radius: 5px;
+    }
+
+    pre {
+      background-color: #2d2d2d;
+      color: #e0e0e0;
+      padding: 15px;
+      border-radius: 6px;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    .highlight {
+      background-color: #dfe6e9;
+      font-weight: bold;
+    }
+
+    .footer {
+      font-size: 0.9rem;
+      color: #888;
+      margin-top: 30px;
+    }
+  </style>
+
+  <div>
+    <h1>${f.title}</h1>
+
+    <div class="section">
+      <div class="label">Finding ID:</div>
+      <div class="content">${f.id}</div>
+    </div>
+
+    <div class="section">
+      <div class="label">Severity:</div>
+      <div class="highlight">${f.severity}</div>
+    </div>
+
+    <div class="section">
+      <div class="label">Category:</div>
+      <div class="content">${f.category}</div>
+    </div>
+
+    <div class="section">
+      <div class="label">CVSS:</div>
+      <div class="content">${f.cvss || 'N/A'}</div>
+    </div>
+
+    <div class="section">
+      <h2>Objective</h2>
+      <p>${f.objective}</p>
+    </div>
+
+    <div class="section">
+      <h2>Exploitation Steps</h2>
+      <ol>
+        <li>${f.exploitationSteps[0]}</li>
+        <li>${f.exploitationSteps[1]}</li>
+        <li>${f.exploitationSteps[2]}</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <h2>Proof</h2>
+      <pre>${f.proof}</pre>
+    </div>
+
+    <div class="section">
+      <h2>Impact</h2>
+      <p>${f.impact}</p>
+    </div>
+
+    <div class="section">
+      <h2>Remediation Validation</h2>
+      <p>${f.remediation}</p>
+    </div>
+
+    <div class="footer">
+      Findings are classified according to MITRE ATT&CK, CWE, and NIST 800-53 controls. 
+      Use the provided frameworks for further assessment and remediation.
+    </div>
+  </div>
+  `;
+}
+
+function savePocToLocal(findingId) {
+  const content = document.getElementById("pocEditor").value;
+  localStorage.setItem(`poc_${findingId}`, content);
+  showToast("PoC saved locally.", "success");
+}
+
+function clearSavedPoc(findingId) {
+  localStorage.removeItem(`poc_${findingId}`);
+  showToast("Saved PoC cleared.", "info");
+}
+
+function exportPocPDF(findingId) {
+
+  const content = document.getElementById("pocEditor").value;
+  const html = marked.parse(content);
+
+  const wrapper = document.createElement("div");
+
+  // Inherit current theme
+  wrapper.setAttribute("data-theme",
+    document.documentElement.getAttribute("data-theme") || "dark"
+  );
+
+  // Use your existing card + finding styling
+  wrapper.innerHTML = `
+    <div class="card p-4" style="margin:40px;">
+      <div class="card-title">Proof of Concept</div>
+      <div class="finding-body">
+        <div class="box">
+          ${html}
+        </div>
+      </div>
+    </div>
+  `;
+
+  wrapper.id = "pdfExportTemp";
+  document.body.appendChild(wrapper);
+
+  html2pdf().set({
+    margin: 0.5,
+    filename: `PoC_${findingId}.pdf`,
+    html2canvas: {
+      scale: 2,
+      useCORS: true
+    },
+    jsPDF: {
+      unit: 'in',
+      format: 'a4',
+      orientation: 'portrait'
+    }
+  }).from(wrapper).save().then(() => {
+    document.body.removeChild(wrapper);
+  });
+
+  showToast("PDF exported.", "success");
+}
+
+function filterFindings() {
+  return FINDINGS.filter(f => {
+    const okSev = (state.severity === "All") || (f.severity === state.severity);
+    const okCat = (state.category === "All") || (f.category === state.category);
+    const okSearch = matchSearch(f);
+    return okSev && okCat && okSearch;
+  });
+}
+
+function setFilterLine(count) {
+  const parts = [];
+  if (state.severity !== "All") parts.push(`Severity=${state.severity}`);
+  if (state.category !== "All") parts.push(`Category=${state.category}`);
+  if (state.search) parts.push(`Search="${state.search}"`);
+
+  const line = parts.length ? parts.join(" • ") : "All findings";
+  document.getElementById('activeFilterLine').textContent = `Showing: ${line} (${count})`;
+}
+
+function cvssBg(cvss) {
+  const s = Math.max(0, Math.min(10, Number(cvss) || 0));
+  // 0 -> green (120), 10 -> red (0)
+  const hue = 120 - (s * 12);
+  return `hsl(${hue}, 85%, 55%)`;
+}
+
+function renderFindings(list) {
+  const host = document.getElementById('findingsList');
+  host.innerHTML = "";
+
+  if (!list.length) {
+    host.innerHTML = `
+      <div class="card p-3">
+        <div class="card-title">No results</div>
+        <div class="text-muted">Try clearing filters or changing search terms.</div>
+      </div>`;
+    return;
+  }
+
+  list.forEach((f, idx) => {
+    const collapseId = `collapse_${idx}_${f.id.replaceAll(/[^a-zA-Z0-9_-]/g, "")}`;
+
+const mitre = (f.mitre || []).map(m => {
+
+  let id = "";
+
+  if (typeof m === "string") {
+    id = m;
+  } else {
+    id = m.SubTechnique
+      ? `${m.Technique}.${m.SubTechnique}`
+      : m.Technique;
+  }
+
+  return `
+    <span class="meta-bubble"
+          onclick="bubbleFilter('mitre','${escapeHtml(id)}')">
+      ${m.Url ? `
+        <a href="${escapeHtml(m.Url)}"
+           target="_blank"
+           style="text-decoration:none;color:inherit;">
+           MITRE ${escapeHtml(id)}
+        </a>
+      ` : `MITRE ${escapeHtml(id)}`}
+    </span>
+  `;
+}).join("");
+
+const cwe = (f.cwe || []).map(c => {
+
+  const id = (typeof c === "string") ? c : c.Id;
+
+  return `
+    <span class="meta-bubble"
+          onclick="bubbleFilter('cwe','${escapeHtml(id)}')">
+      ${c.Url ? `
+        <a href="${escapeHtml(c.Url)}"
+           target="_blank"
+           style="text-decoration:none;color:inherit;">
+           ${escapeHtml(id)}
+        </a>
+      ` : escapeHtml(id)}
+    </span>
+  `;
+}).join("");
+
+const nistSource = f.nistObjects && f.nistObjects.length
+  ? f.nistObjects
+  : (f.nist || []);
+
+const nist = nistSource.map(n => {
+
+  const id = (typeof n === "string")
+    ? n
+    : (n.id || n.Id);
+
+  const url = (typeof n === "object")
+    ? (n.url || n.Url)
+    : "";
+
+  return `
+    <span class="meta-bubble"
+          onclick="bubbleFilter('nist','${escapeHtml(id)}')">
+      ${url ? `
+        <a href="${escapeHtml(url)}"
+           target="_blank"
+           style="text-decoration:none;color:inherit;">
+           NIST ${escapeHtml(id)}
+        </a>
+      ` : `NIST ${escapeHtml(id)}`}
+    </span>
+  `;
+}).join("");
+
+    const node = document.createElement("div");
+    node.className = "finding";
+    node.setAttribute("data-sev", f.severity);
+    node.setAttribute("data-cat", f.category);
+
+    node.innerHTML = `
+      <div class="finding-head">
+        <div class="d-flex align-items-start gap-3 flex-wrap">
+          <span class="sev-pill ${escapeHtml(f.severity)}">${escapeHtml(f.severity)}</span>
+
+          <div>
+            <div class="finding-title">${escapeHtml(f.title)}</div>
+            <div class="finding-sub">
+              <span class="text-muted">Category:</span> ${escapeHtml(f.category)} &nbsp;•&nbsp;
+              <span class="text-muted">Status:</span> ${escapeHtml(f.status)} &nbsp;•&nbsp;
+              <span class="text-muted">Time:</span> ${escapeHtml(f.time)}
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+          <div class="d-flex align-items-center gap-2">
+            <span class="cvss-pill" style="background:${cvssBg(f.cvss)};">
+              CVSS ${escapeHtml(f.cvss)}
+            </span>
+
+            <button class="btn btn-outline-light btn-sm"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#${collapseId}">
+              Details
+            </button>
+
+            <button class="btn btn-accent btn-sm"
+                    type="button"
+                    onclick="openEvidence('${escapeHtml(f.id)}')">
+              Evidence
+            </button>
+
+            <!-- NEW BUTTON -->
+            <button class="btn btn-outline-light btn-sm"
+                    type="button"
+                    onclick="openCreatePoc('${escapeHtml(f.id)}')">
+              <i class="bi bi-code-slash"></i> Create PoC
+            </button>
+          </div>          
+        </div>
+      </div>
+
+      <div class="meta-row">
+        <span class="meta-bubble" onclick="setCategory('${escapeHtml(f.category)}')">Category ${escapeHtml(f.category)}</span>
+        ${mitre}
+        ${nist}
+        ${cwe}
+      </div>
+
+      <div id="${collapseId}" class="collapse">
+        <div class="finding-body">
+          <div class="row g-3 mt-1">
+            <div class="col-lg-6">
+              <div class="label">Message</div>
+              <div class="box">${escapeHtml(f.message).replaceAll("\n","<br>")}</div>
+            </div>
+            <div class="col-lg-6">
+              <div class="label">Recommendation</div>
+              <div class="box">${escapeHtml(f.recommendation).replaceAll("\n","<br>")}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    host.appendChild(node);
+  });
+}
+
+function bubbleFilter(kind, value) {
+  const s = `${kind}:${value}`;
+  state.search = s.toLowerCase();
+  document.getElementById('searchInput').value = s;
+  applyFiltersAndRender();
+}
+
+function openEvidence(findingId) {
+  const f = FINDINGS.find(x => x.id === findingId);
+  if (!f) return;
+
+  const body = `
+    <div class="label">Finding</div>
+    <div class="box mb-3"><strong>${escapeHtml(f.title)}</strong><br><span class="text-muted">${escapeHtml(f.id)}</span></div>
+
+    <div class="label">Evidence</div>
+    <div class="box"><pre style="margin:0; white-space:pre-wrap; color:inherit;">${escapeHtml(f.evidence || "No evidence provided.")}</pre></div>
+  `;
+
+  document.getElementById('mitreBody').innerHTML = body;
+  const modal = new bootstrap.Modal(document.getElementById('mitreModal'));
+  modal.show();
+}
+
+function countBy(key) {
+  const m = new Map();
+  for (const f of FINDINGS) {
+    const v = f[key] || "Unknown";
+    m.set(v, (m.get(v) || 0) + 1);
+  }
+  return m;
+}
+
+function collectMitre() {
+
+  const map = new Map();
+
+  for (const f of FINDINGS) {
+
+    const source = f.mitreObjects && f.mitreObjects.length
+      ? f.mitreObjects
+      : (f.mitre || []);
+
+    for (const t of source) {
+
+      let id = "";
+      let name = "";
+      let url = "";
+      let tactic = "Unknown";
+
+      if (typeof t === "string") {
+
+        id = t;
+
+      } else {
+
+        id     = t.id || t.Id || "";
+        name   = t.name || t.Name || "";
+        url    = t.url || t.Url || "";
+        tactic = t.tactic || t.Tactic || "Unknown";
+      }
+
+      if (!id) continue;
+
+      if (!map.has(id)) {
+        map.set(id, { id, name, url, tactic, count: 0 });
+      }
+
+      map.get(id).count++;
+    }
+  }
+
+  return map;
+}
+
+function collectNist() {
+
+  const map = new Map();
+
+  for (const f of FINDINGS) {
+
+    const source = f.nistObjects && f.nistObjects.length
+      ? f.nistObjects
+      : (f.nist || []);
+
+    for (const n of source) {
+
+      let id = "";
+      let name = "";
+      let url = "";
+
+      if (typeof n === "string") {
+        id = n;
+      } else {
+        id   = n.id || n.Id || "";
+        name = n.name || n.Name || "";
+        url  = n.url || n.Url || "";
+      }
+
+      if (!id) continue;
+
+      if (!map.has(id)) {
+        map.set(id, { id, name, url, count: 0 });
+      }
+
+      map.get(id).count++;
+    }
+  }
+
+  return map;
+}
+
+function collectCwe() {
+
+  const map = new Map();
+
+  for (const f of FINDINGS) {
+
+    const source = f.cweObjects && f.cweObjects.length
+      ? f.cweObjects
+      : (f.cwe || []);
+
+    for (const c of source) {
+
+      let id = "";
+      let name = "";
+      let url = "";
+
+      if (typeof c === "string") {
+
+        id = c;
+
+      } else {
+
+        id   = c.id || c.Id || "";
+        name = c.name || c.Name || "";
+        url  = c.url || c.Url || "";
+      }
+
+      if (!id) continue;
+
+      if (!map.has(id)) {
+        map.set(id, { id, name, url, count: 0 });
+      }
+
+      map.get(id).count++;
+    }
+  }
+
+  return map;
+}
+
+let chartSeverity, chartCategory, chartMitre, chartCwe, chartNist;
+
+function buildCharts() {
+
+  const sevMap = countBy("severity");
+  const catMap = countBy("category");
+  const mitreMap = collectMitre();
+  const cweMap = collectCwe();
+  const nistMap = collectNist();
+
+  const sevLabels = ["Critical","High","Medium","Low","Info"];
+  const sevData = sevLabels.map(s => sevMap.get(s) || 0);
+
+  const catLabels = Array.from(catMap.keys());
+  const catData = catLabels.map(k => catMap.get(k));
+
+  const mitreTop = Array.from(mitreMap.values())
+    .sort((a,b)=>b.count-a.count)
+    .slice(0,7);
+
+  const mitreLabels = mitreTop.map(x => x.id);
+  const mitreData   = mitreTop.map(x => x.count);
+
+  const cweTop = Array.from(cweMap.values())
+    .sort((a,b)=>b.count-a.count)
+    .slice(0,7);
+
+  const cweLabels = cweTop.map(x => x.id);
+  const cweData   = cweTop.map(x => x.count);
+
+  const nistTop = Array.from(nistMap.values())
+    .sort((a,b)=>b.count-a.count)
+    .slice(0,7);
+
+  const nistLabels = nistTop.map(x => x.id);
+  const nistData   = nistTop.map(x => x.count);
+
+  const ctxS = document.getElementById('chartSeverity');
+  const ctxC = document.getElementById('chartCategory');
+  const ctxM = document.getElementById('chartMitre');
+  const ctxW = document.getElementById('chartCwe');
+  const ctxN = document.getElementById('chartNist');
+
+  if (chartSeverity) chartSeverity.destroy();
+  if (chartCategory) chartCategory.destroy();
+  if (chartMitre) chartMitre.destroy();
+  if (chartCwe) chartCwe.destroy();
+  if (chartNist) chartNist.destroy();
+
+  const textColor = getComputedStyle(document.documentElement)
+                    .getPropertyValue('--text-primary');
+
+  chartSeverity = new Chart(ctxS, {
+    type: 'doughnut',
+    data: {
+      labels: sevLabels,
+      datasets: [{
+        data: sevData,
+        backgroundColor: ['#ef4444','#fb923c','#facc15','#34d399','#60a5fa']
+      }]
+    },
+    options: {
+      plugins: { legend: { labels: { color: textColor } } }
+    }
+  });
+
+  chartCategory = new Chart(ctxC, {
+    type: 'pie',
+    data: {
+      labels: catLabels,
+      datasets: [{
+        data: catData,
+        backgroundColor: ['#ef4444','#facc15','#60a5fa','#34d399','#fb923c','#a78bfa','#f472b6']
+      }]
+    },
+    options: {
+      plugins: { legend: { labels: { color: textColor } } }
+    }
+  });
+
+  chartMitre = new Chart(ctxM, {
+    type: 'bar',
+    data: {
+      labels: mitreLabels,
+      datasets: [{
+        label: 'Findings',
+        data: mitreData,
+        backgroundColor: '#ef4444'
+      }]
+    },
+    options: {
+      scales: {
+        x: { ticks: { color: textColor } },
+        y: { ticks: { color: textColor } }
+      },
+      plugins: { legend: { display: false } }
+    }
+  });
+
+  chartCwe = new Chart(ctxW, {
+    type: 'bar',
+    data: {
+      labels: cweLabels,
+      datasets: [{
+        label: 'Findings',
+        data: cweData,
+        backgroundColor: '#facc15'
+      }]
+    },
+    options: {
+      scales: {
+        x: { ticks: { color: textColor } },
+        y: { ticks: { color: textColor } }
+      },
+      plugins: { legend: { display: false } }
+    }
+  });
+
+  chartNist = new Chart(ctxN, {
+    type: 'bar',
+    data: {
+      labels: nistLabels,
+      datasets: [{
+        label: 'Findings',
+        data: nistData,
+        backgroundColor: '#60a5fa'
+      }]
+    },
+    options: {
+      scales: {
+        x: { ticks: { color: textColor } },
+        y: { ticks: { color: textColor } }
+      },
+      plugins: { legend: { display: false } }
+    }
+  });
+}
+
+function updateSidebarCounts() {
+
+  const sev = countBy("severity");
+  const mit = collectMitre();
+  const nist = collectNist();
+  const cwe = collectCwe();
+  const total = FINDINGS.length;
+
+  document.getElementById('countAll').textContent = total;
+  document.getElementById('countFindings').textContent = total;
+
+  document.getElementById('countMitre').textContent = mit.size;
+  document.getElementById('countNist').textContent = nist.size;
+  document.getElementById('countCwe').textContent = cwe.size;
+
+  document.getElementById('sevAll').textContent = total;
+  document.getElementById('sevCritical').textContent = sev.get("Critical") || 0;
+  document.getElementById('sevHigh').textContent = sev.get("High") || 0;
+  document.getElementById('sevMedium').textContent = sev.get("Medium") || 0;
+  document.getElementById('sevLow').textContent = sev.get("Low") || 0;
+  document.getElementById('sevInfo').textContent = sev.get("Info") || 0;
+
+  document.getElementById('catAll').textContent = total;
+}
+
+function applyFiltersAndRender() {
+  const filtered = filterFindings();
+  setFilterLine(filtered.length);
+  renderFindings(filtered);
+}
+
+function openMitreOverlay() {
+
+  const mitreMap = collectMitre();
+  const items = Array.from(mitreMap.values());
+
+  const grouped = {};
+
+  for (const item of items) {
+
+    const tactic = item.tactic || "Unknown";
+
+    if (!grouped[tactic]) {
+      grouped[tactic] = [];
+    }
+
+    grouped[tactic].push(item);
+  }
+
+  const sortedTactics = Object.keys(grouped).sort();
+
+  let html = `
+    <div class="mb-3 text-muted">
+      MITRE ATT&CK Techniques grouped by Tactic.
+    </div>
+  `;
+
+  if (!items.length) {
+    html += `<div class="box">No MITRE technique data present.</div>`;
+  }
+
+  for (const tactic of sortedTactics) {
+
+    const techniques = grouped[tactic]
+      .sort((a,b)=>b.count-a.count);
+
+    html += `
+      <div class="mb-4">
+        <div style="
+          font-weight:600;
+          font-size:0.95rem;
+          margin-bottom:8px;
+          color:var(--accent);
+          letter-spacing:0.05em;
+        ">
+          ${escapeHtml(tactic)}
+        </div>
+
+        <div class="d-flex flex-column gap-2">
+    `;
+
+    for (const item of techniques) {
+
+      html += `
+        <div class="box d-flex justify-content-between align-items-center">
+          <div>
+            <div>
+              <strong>${escapeHtml(item.id)}</strong>
+              ${item.name ? ` — ${escapeHtml(item.name)}` : ""}
+            </div>
+
+            ${item.url ? `
+              <div style="font-size:0.8rem;">
+                <a href="${escapeHtml(item.url)}" target="_blank">
+                  View on MITRE ATT&CK
+                </a>
+              </div>
+            ` : ""}
+          </div>
+
+          <div class="d-flex align-items-center gap-2">
+            <span class="count-pill">${item.count}</span>
+            <button class="btn btn-outline-light btn-sm"
+              onclick="filterByMitreFromOverlay('${escapeHtml(item.id)}')">
+              Filter
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    html += `
+        </div>
+      </div>
+    `;
+  }
+
+  document.getElementById('mitreBody').innerHTML = html;
+  new bootstrap.Modal(document.getElementById('mitreModal')).show();
+}
+
+function openNistOverlay() {
+
+  const nistMap = collectNist();
+  const items = Array.from(nistMap.values())
+                     .sort((a,b)=>b.count-a.count);
+
+  let html = `
+    <div class="mb-3 text-muted">
+      NIST controls found across current export.
+    </div>
+    <div class="d-flex flex-column gap-3">
+  `;
+
+  if (!items.length) {
+    html += `<div class="box">No NIST control data present.</div>`;
+  }
+
+  for (const item of items) {
+
+    html += `
+      <div class="box d-flex justify-content-between align-items-center">
+        <div>
+          <div>
+            <strong>${escapeHtml(item.id)}</strong>
+            ${item.name ? ` — ${escapeHtml(item.name)}` : ""}
+          </div>
+
+          ${item.url ? `
+            <div style="font-size:0.8rem;">
+              <a href="${escapeHtml(item.url)}" target="_blank">
+                View NIST Control
+              </a>
+            </div>
+          ` : ""}
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+          <span class="count-pill">${item.count}</span>
+          <button class="btn btn-outline-light btn-sm"
+            onclick="filterByNistFromOverlay('${escapeHtml(item.id)}')">
+            Filter
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  html += `</div>`;
+
+  document.getElementById('mitreBody').innerHTML = html;
+  new bootstrap.Modal(document.getElementById('mitreModal')).show();
+}
+
+function openCweOverlay() {
+
+  const cweMap = collectCwe();
+  const items = Array.from(cweMap.values())
+                     .sort((a,b)=>b.count-a.count);
+
+  let html = `
+    <div class="mb-3 text-muted">
+      CWE weaknesses found across current export.
+    </div>
+    <div class="d-flex flex-column gap-3">
+  `;
+
+  if (!items.length) {
+    html += `<div class="box">No CWE data present.</div>`;
+  }
+
+  for (const item of items) {
+
+    html += `
+      <div class="box d-flex justify-content-between align-items-center">
+        <div>
+          <div>
+            <strong>${escapeHtml(item.id)}</strong>
+            ${item.name ? ` — ${escapeHtml(item.name)}` : ""}
+          </div>
+
+          ${item.url ? `
+            <div style="font-size:0.8rem;">
+              <a href="${escapeHtml(item.url)}" target="_blank">
+                View CWE Details
+              </a>
+            </div>
+          ` : ""}
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+          <span class="count-pill">${item.count}</span>
+          <button class="btn btn-outline-light btn-sm"
+            onclick="filterByCweFromOverlay('${escapeHtml(item.id)}')">
+            Filter
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  html += `</div>`;
+
+  document.getElementById('mitreBody').innerHTML = html;
+  new bootstrap.Modal(document.getElementById('mitreModal')).show();
+}
+
+function filterByMitreFromOverlay(t) {
+  const modalEl = document.getElementById('mitreModal');
+  const modal = bootstrap.Modal.getInstance(modalEl);
+  if (modal) modal.hide();
+
+  const s = t;
+  state.search = s.toLowerCase();
+  document.getElementById('searchInput').value = s;
+
+  setPage("findings");
+  applyFiltersAndRender();
+}
+
+function filterByNistFromOverlay(id) {
+  const modalEl = document.getElementById('mitreModal');
+  const modal = bootstrap.Modal.getInstance(modalEl);
+  if (modal) modal.hide();
+
+  const s = `nist:${id}`;
+  state.search = s.toLowerCase();
+  document.getElementById('searchInput').value = s;
+
+  setPage("findings");
+  applyFiltersAndRender();
+}
+
+function filterByCweFromOverlay(id) {
+  const modalEl = document.getElementById('mitreModal');
+  const modal = bootstrap.Modal.getInstance(modalEl);
+  if (modal) modal.hide();
+
+  const s = `cwe:${id}`;
+  state.search = s.toLowerCase();
+  document.getElementById('searchInput').value = s;
+
+  setPage("findings");
+  applyFiltersAndRender();
+}
+
+function init() {
+
+  renderRunContext();
+  updateSidebarCounts();
+  buildDynamicCategories();
+  buildCharts();
+
+  setActiveNav("severity", "sev", "All");
+  setActiveNav("category", "cat", "All");
+  setActivePageNav("overview");
+
+  const observer = new MutationObserver(() => {
+    buildCharts();
+  });
+
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['data-theme']
+  });
+}
+
+init();
+</script>
+</body>
+</html>

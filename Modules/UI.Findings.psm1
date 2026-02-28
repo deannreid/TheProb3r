@@ -22,6 +22,7 @@ function fncShowFindings {
         fncSafeDivider
 
         fncSafeMenuOption "1" "All"
+        Write-Host ""
         fncSafeMenuOption "2" "Critical"
         fncSafeMenuOption "3" "High"
         fncSafeMenuOption "4" "Medium"
@@ -91,7 +92,12 @@ function fncShowFindingsMenu {
         fncSafeDivider
 
         fncSafeMenuOption "1" "View Findings"
-        fncSafeMenuOption "2" "Export Findings"
+        Write-Host ""
+        fncSafeMenuOption "2" "Export Findings to CSV"
+        fncSafeMenuOption "3" "Export Findings to HTML"
+        fncSafeMenuOption "4" "Export Findings to JSON (coming soon)"
+        fncSafeMenuOption "B" "Main Menu"
+        fncSafeMenuOption "Q" "Quit"
 
         Write-Host ""
         fncSafeBackQuit
@@ -103,6 +109,8 @@ function fncShowFindingsMenu {
 
             "1" { fncShowFindings }
             "2" { fncExportFindings }
+            "3" { fncExportFindingsToHtml }
+            "4" { fncSafePrintMessage "JSON export coming soon!" "info" }
             "B" { return }
             "Q" { return }
         }

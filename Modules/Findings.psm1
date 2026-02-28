@@ -131,7 +131,7 @@ function fncPrintFindingsSummary {
             fncWriteColour ("Low:{0} | " -f $counts.Low) $lColour -NoNewLine
             # --- Info ---
             $iColour = if ($counts.Info -gt 0) { [System.ConsoleColor]::White } else { [System.ConsoleColor]::DarkGray }
-            fncWriteColour ("Info:{0} |" -f $counts.Info) $iColour -NoNewLine
+            fncWriteColour ("Info:{0} |" -f $counts.Info) $iColour
         }
         else {
 

@@ -111,7 +111,8 @@ function fncImportLocalModules {
 
     $optional = @(
         "Integrations.NIST.psm1",
-        "Integrations.KEV.psm1"
+        "Integrations.KEV.psm1",
+        "Export.HTML.psm1"
     )
 
     switch ($global:LoggerMode) {
@@ -188,15 +189,6 @@ function fncRunMenu {
         fncLogBanner "THE Pr0b3r Execution"
         fncLog "INFO" "Runner initialisation starting"
         fncLog "DEBUG" ("RunId: {0}" -f $global:ProberState.RunContext.RunId)
-
-        if ((Get-Variable Banner -Scope Global -ErrorAction SilentlyContinue) -and
-            (Get-Command fncWriteColour -ErrorAction SilentlyContinue)) {
-
-            try {
-                fncWriteColour ($global:Banner -f $global:CurrentBlurb) ([System.ConsoleColor]::DarkRed)
-                fncLog "DEBUG" "Banner rendered"
-            } catch {}
-        }
 
         if (Get-Command fncCheckPowerShellVersion -ErrorAction SilentlyContinue) {
             fncCheckPowerShellVersion
