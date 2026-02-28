@@ -1,9 +1,0 @@
-{
-  "Id": "APPLOCKER-CHECK",
-  "Name": "AppLocker Policy Check",
-  "Function": "fncCheckAppLockerPolicy",
-  "Category": "Application Control",
-  "Scopes": ["Workstation", "Server", "DMZ"],
-  "RequiresAdmin": false,
-  "Description": "Enumerates AppLocker enforcement and configuration."
-}

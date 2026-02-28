@@ -1,9 +1,0 @@
-{
-  "Id": "RECON-INSTALLED-SOFTWARE-INVENTORY-ADV",
-  "Name": "Installed Software Inventory (Advanced)",
-  "Function": "fncGetReconInstalledSoftwareAdv",
-  "Category": "Reconnaissance",
-  "Scopes": ["Workstation", "Server", "DMZ"],
-  "RequiresAdmin": false,
-  "Description": "Enumerates installed software from registry, and gathers data from NIST and KEV."
-}

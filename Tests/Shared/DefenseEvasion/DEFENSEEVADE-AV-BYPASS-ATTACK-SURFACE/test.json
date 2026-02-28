@@ -1,0 +1,60 @@
+{
+  "SchemaVersion": 5,
+  "Id": "DEFENSEEVADE-AV-BYPASS-ATTACK-SURFACE",
+  "Name": "AV Bypass Attack Surface",
+  "Function": "fncGetDefenseEvasionAVBypassAttackSurface",
+
+  "Category": {
+    "Primary": "Defense Evasion",
+    "Subcategories": [
+      "AV Evasion",
+      "Microsoft Defender",
+      "Exclusions",
+      "Execution Surface Correlation"
+    ]
+  },
+
+  "Scopes": ["Workstation", "Server", "DMZ"],
+  "RequiresAdmin": false,
+  "Enabled": true,
+
+  "Description": "Enumerates Microsoft Defender exclusions (paths/processes/extensions), evaluates exploitability (user-writable/suspicious/wildcards), and correlates with execution surfaces (services, scheduled tasks, autoruns) to highlight practical AV bypass opportunities.",
+
+  "Mappings": {
+
+    "MitreAttack": [
+      {
+        "Tactic": {
+          "Name": "Defense Evasion",
+          "Id": "TA0005",
+          "Url": "https://attack.mitre.org/tactics/TA0005/"
+        },
+        "Technique": {
+          "Name": "Impair Defenses",
+          "Id": "T1562",
+          "Url": "https://attack.mitre.org/techniques/T1562/"
+        }
+      }
+    ],
+
+    "CWE": [
+      {
+        "Weakness": {
+          "Id": "CWE-693",
+          "Name": "Protection Mechanism Failure",
+          "Url": "https://cwe.mitre.org/data/definitions/693.html"
+        }
+      }
+    ],
+
+    "Nist": [
+      {
+        "Control": {
+          "Id": "SI-3",
+          "Name": "Malicious Code Protection",
+          "Url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+        }
+      }
+    ]
+  }
+}

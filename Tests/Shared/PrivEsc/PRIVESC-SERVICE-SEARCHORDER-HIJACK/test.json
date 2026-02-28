@@ -1,0 +1,73 @@
+{
+  "SchemaVersion": 5,
+  "Id": "PRIVESC-SERVICE-SEARCHORDER-HIJACK",
+  "Name": "Service & Search-Order Hijack Analysis",
+  "Function": "fncGetPrivEscServiceAndDllCorrelations",
+
+  "Category": {
+    "Primary": "Privilege Escalation",
+    "Subcategories": [
+      "Service Misconfiguration",
+      "DLL Search Order Hijacking",
+      "PATH Hijacking"
+    ]
+  },
+
+  "Scopes": ["Workstation", "Server", "DMZ"],
+  "RequiresAdmin": false,
+  "Enabled": true,
+
+  "Description": "Correlates service binary directories, PATH search order, and ServiceDll registry loads to identify high-privilege owned and user-writable hijack surfaces.",
+
+  "Mappings": {
+
+    "MitreAttack": [
+      {
+        "Tactic": {
+          "Name": "Privilege Escalation",
+          "Id": "TA0004",
+          "Url": "https://attack.mitre.org/tactics/TA0004/"
+        },
+        "Technique": {
+          "Name": "Hijack Execution Flow",
+          "Id": "T1574",
+          "SubTechnique": "001",
+          "Url": "https://attack.mitre.org/techniques/T1574/001/"
+        }
+      },
+      {
+        "Tactic": {
+          "Name": "Privilege Escalation",
+          "Id": "TA0004",
+          "Url": "https://attack.mitre.org/tactics/TA0004/"
+        },
+        "Technique": {
+          "Name": "Hijack Execution Flow",
+          "Id": "T1574",
+          "SubTechnique": "007",
+          "Url": "https://attack.mitre.org/techniques/T1574/007/"
+        }
+      }
+    ],
+
+    "CWE": [
+      {
+        "Weakness": {
+          "Name": "Incorrect Permission Assignment for Critical Resource",
+          "Id": "CWE-732",
+          "Url": "https://cwe.mitre.org/data/definitions/732.html"
+        }
+      }
+    ],
+
+    "Nist": [
+      {
+        "Control": {
+          "Id": "AC-6",
+          "Name": "Least Privilege",
+          "Url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "SchemaVersion": 5,
+  "Id": "APPLOCKER-CHECK",
+  "Name": "AppLocker Policy Check",
+  "Function": "fncCheckAppLockerPolicy",
+
+  "Category": {
+    "Primary": "Application Control",
+    "Subcategories": [
+      "Allow Listing",
+      "Execution Control",
+      "Policy Enforcement"
+    ]
+  },
+
+  "Scopes": ["Workstation", "Server", "DMZ"],
+  "RequiresAdmin": false,
+  "Enabled": true,
+
+  "Description": "Enumerates AppLocker enforcement status, rule collections, and execution control posture.",
+
+  "Mappings": {
+
+    "MitreAttack": [
+
+      {
+        "Tactic": {
+          "Name": "Execution",
+          "Id": "TA0002",
+          "Url": "https://attack.mitre.org/tactics/TA0002/"
+        }
+      },
+
+      {
+        "Tactic": {
+          "Name": "Defense Evasion",
+          "Id": "TA0005",
+          "Url": "https://attack.mitre.org/tactics/TA0005/"
+        },
+        "Technique": {
+          "Name": "Application Control Bypass",
+          "Id": "T1218",
+          "SubTechnique": "",
+          "Url": "https://attack.mitre.org/techniques/T1218/"
+        }
+      }
+
+    ],
+
+    "CWE": [
+      {
+        "Name": "Improper Access Control",
+        "Id": "CWE-284",
+        "Url": "https://cwe.mitre.org/data/definitions/284.html"
+      }
+    ],
+
+    "Nist": [
+      {
+        "Name": "Least Functionality",
+        "Control": "CM-7",
+        "Url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+      },
+      {
+        "Name": "Access Enforcement",
+        "Control": "AC-3",
+        "Url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+      }
+    ]
+  }
+}

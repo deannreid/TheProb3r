@@ -1,0 +1,73 @@
+{
+  "SchemaVersion": 5,
+  "Id": "CREDENTIALS-CACHED-EXPOSURE",
+  "Name": "Cached Credential Exposure",
+  "Function": "fncGetCredentialsCachedExposure",
+
+  "Category": {
+    "Primary": "Credential Exposure",
+    "Subcategories": [
+      "LSASS",
+      "WDigest",
+      "Cached Credentials",
+      "SMB Relay",
+      "Tiering"
+    ]
+  },
+
+  "Scopes": ["Workstation", "Server"],
+  "RequiresAdmin": true,
+  "Enabled": true,
+
+  "Description": "Checks cached domain credentials, WDigest plaintext exposure, LSASS protections, Credential Guard, SMB signing posture, and LAPS configuration.",
+
+  "Mappings": {
+
+    "MitreAttack": [
+      {
+        "Tactic": {
+          "Name": "Credential Access",
+          "Id": "TA0006",
+          "Url": "https://attack.mitre.org/tactics/TA0006/"
+        },
+        "Technique": {
+          "Name": "OS Credential Dumping",
+          "Id": "T1003",
+          "Url": "https://attack.mitre.org/techniques/T1003/"
+        }
+      },
+      {
+        "Tactic": {
+          "Name": "Credential Access",
+          "Id": "TA0006",
+          "Url": "https://attack.mitre.org/tactics/TA0006/"
+        },
+        "Technique": {
+          "Name": "Credentials from Password Stores",
+          "Id": "T1555",
+          "Url": "https://attack.mitre.org/techniques/T1555/"
+        }
+      }
+    ],
+
+    "CWE": [
+      {
+        "Weakness": {
+          "Id": "CWE-798",
+          "Name": "Use of Hard-coded Credentials",
+          "Url": "https://cwe.mitre.org/data/definitions/798.html"
+        }
+      }
+    ],
+
+    "Nist": [
+      {
+        "Control": {
+          "Id": "IA-5",
+          "Name": "Authenticator Management",
+          "Url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+        }
+      }
+    ]
+  }
+}

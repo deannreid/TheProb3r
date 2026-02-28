@@ -1,0 +1,66 @@
+{
+  "SchemaVersion": 5,
+  "Id": "CREDENTIALS-PLAINTEXT-CONFIG",
+  "Name": "Plaintext Secret Exposure",
+  "Function": "fncGetCredentialsPlaintextConfigSecrets",
+
+  "Category": {
+    "Primary": "Credential Exposure",
+    "Subcategories": [
+      "Plaintext Secrets",
+      "Configuration Files"
+    ]
+  },
+
+  "Scopes": ["Workstation", "Server", "DMZ"],
+  "RequiresAdmin": false,
+  "Enabled": true,
+
+  "Description": "Scans common configuration files and registry locations for potential plaintext secrets.",
+
+  "Mappings": {
+
+    "MitreAttack": [
+      {
+        "Tactic": {
+          "Name": "Credential Access",
+          "Id": "TA0006",
+          "Url": "https://attack.mitre.org/tactics/TA0006/"
+        },
+        "Technique": {
+          "Name": "Credentials from Configuration Files",
+          "Id": "T1552",
+          "SubTechnique": "001",
+          "Url": "https://attack.mitre.org/techniques/T1552/001/"
+        }
+      }
+    ],
+
+    "CWE": [
+      {
+        "Weakness": {
+          "Id": "CWE-798",
+          "Name": "Use of Hard-coded Credentials",
+          "Url": "https://cwe.mitre.org/data/definitions/798.html"
+        }
+      }
+    ],
+
+    "Nist": [
+      {
+        "Control": {
+          "Id": "IA-5",
+          "Name": "Authenticator Management",
+          "Url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+        }
+      }
+    ]
+  },
+
+  "References": [
+    {
+      "Title": "OWASP Secrets Management Cheat Sheet",
+      "Url": "https://cheatsheetseries.owasp.org/"
+    }
+  ]
+}

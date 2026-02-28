@@ -1,9 +1,0 @@
-{
-  "Id": "HIGHPRIV-WRITABLE-BINARIES",
-  "Name": "High-Priv Writable Binaries",
-  "Function": "fncGetHighPrivWritableBinaries",
-  "Category": "Privilege Escalation",
-  "Scopes": ["Workstation", "Server", "DMZ"],
-  "RequiresAdmin": false,
-  "Description": "Scans common application and user-context roots for binaries owned by SYSTEM/Administrators that are writable by the current user, indicating potential privilege escalation via overwrite/hijack."
-}

@@ -1,0 +1,78 @@
+{
+  "SchemaVersion": 5,
+  "Id": "INTERESTING-SERVICE-ACCOUNTS",
+  "Name": "Interesting Service Accounts",
+  "Function": "fncGetInterestingServiceAccounts",
+
+  "Category": {
+    "Primary": "Reconnaissance",
+    "Subcategories": [
+      "Service Enumeration",
+      "Credential Exposure",
+      "Privilege Escalation Surface"
+    ]
+  },
+
+  "Scopes": ["Workstation", "Server", "DMZ"],
+  "RequiresAdmin": false,
+  "Enabled": true,
+
+  "Description": "Enumerates Windows services running under non built-in accounts that may expose credentials or enable lateral movement and privilege escalation.",
+
+  "Mappings": {
+
+    "MitreAttack": [
+      {
+        "Tactic": {
+          "Name": "Execution",
+          "Id": "TA0002",
+          "Url": "https://attack.mitre.org/tactics/TA0002/"
+        },
+        "Technique": {
+          "Name": "Service Execution",
+          "Id": "T1569",
+          "Url": "https://attack.mitre.org/techniques/T1569/"
+        }
+      },
+      {
+        "Tactic": {
+          "Name": "Credential Access",
+          "Id": "TA0006",
+          "Url": "https://attack.mitre.org/tactics/TA0006/"
+        },
+        "Technique": {
+          "Name": "OS Credential Dumping",
+          "Id": "T1003",
+          "Url": "https://attack.mitre.org/techniques/T1003/"
+        }
+      }
+    ],
+
+    "CWE": [
+      {
+        "Weakness": {
+          "Id": "CWE-269",
+          "Name": "Improper Privilege Management",
+          "Url": "https://cwe.mitre.org/data/definitions/269.html"
+        }
+      }
+    ],
+
+    "Nist": [
+      {
+        "Control": {
+          "Id": "AC-6",
+          "Name": "Least Privilege",
+          "Url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+        }
+      },
+      {
+        "Control": {
+          "Id": "AC-2",
+          "Name": "Account Management",
+          "Url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+        }
+      }
+    ]
+  }
+}

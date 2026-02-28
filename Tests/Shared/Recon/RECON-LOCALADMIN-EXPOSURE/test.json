@@ -1,0 +1,78 @@
+{
+  "SchemaVersion": 5,
+  "Id": "RECON-LOCALADMIN-EXPOSURE",
+  "Name": "Local Administrator Exposure",
+  "Function": "fncGetReconLocalAdminExposure",
+
+  "Category": {
+    "Primary": "Reconnaissance",
+    "Subcategories": [
+      "Privilege Enumeration",
+      "Local Admin Exposure",
+      "Credential Attack Surface"
+    ]
+  },
+
+  "Scopes": ["Workstation", "Server", "DMZ"],
+  "RequiresAdmin": false,
+  "Enabled": true,
+
+  "Description": "Enumerates members of the local Administrators group and identifies domain principals or weak built-in Administrator configurations that may enable privilege escalation or lateral movement.",
+
+  "Mappings": {
+
+    "MitreAttack": [
+      {
+        "Tactic": {
+          "Name": "Discovery",
+          "Id": "TA0007",
+          "Url": "https://attack.mitre.org/tactics/TA0007/"
+        },
+        "Technique": {
+          "Name": "Account Discovery",
+          "Id": "T1087",
+          "Url": "https://attack.mitre.org/techniques/T1087/"
+        }
+      },
+      {
+        "Tactic": {
+          "Name": "Initial Access",
+          "Id": "TA0001",
+          "Url": "https://attack.mitre.org/tactics/TA0001/"
+        },
+        "Technique": {
+          "Name": "Valid Accounts",
+          "Id": "T1078",
+          "Url": "https://attack.mitre.org/techniques/T1078/"
+        }
+      }
+    ],
+
+    "CWE": [
+      {
+        "Weakness": {
+          "Id": "CWE-269",
+          "Name": "Improper Privilege Management",
+          "Url": "https://cwe.mitre.org/data/definitions/269.html"
+        }
+      }
+    ],
+
+    "Nist": [
+      {
+        "Control": {
+          "Id": "AC-6",
+          "Name": "Least Privilege",
+          "Url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+        }
+      },
+      {
+        "Control": {
+          "Id": "AC-2",
+          "Name": "Account Management",
+          "Url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+        }
+      }
+    ]
+  }
+}

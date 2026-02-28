@@ -1,0 +1,106 @@
+{
+  "SchemaVersion": 5,
+  "Id": "RECON-INSTALLED-SOFTWARE-INVENTORY-ADV",
+  "Name": "Installed Software Inventory (Advanced)",
+  "Function": "fncGetReconInstalledSoftwareAdv",
+
+  "Category": {
+    "Primary": "Reconnaissance",
+    "Subcategories": [
+      "Software Inventory",
+      "Vulnerability Exposure",
+      "Offensive Tool Detection",
+      "Binary Integrity",
+      "End-of-Life Detection"
+    ]
+  },
+
+  "Scopes": ["Workstation", "Server", "DMZ"],
+  "RequiresAdmin": false,
+  "Enabled": true,
+
+  "Description": "Enumerates installed software, correlates runtime signals, checks digital signatures, identifies offensive tooling, detects End-of-Life software, and enriches vulnerability data using NVD and CISA KEV feeds.",
+
+  "Mappings": {
+
+    "MitreAttack": [
+      {
+        "Tactic": {
+          "Name": "Discovery",
+          "Id": "TA0007",
+          "Url": "https://attack.mitre.org/tactics/TA0007/"
+        },
+        "Technique": {
+          "Name": "Software Discovery",
+          "Id": "T1518",
+          "Url": "https://attack.mitre.org/techniques/T1518/"
+        }
+      },
+      {
+        "Tactic": {
+          "Name": "Discovery",
+          "Id": "TA0007",
+          "Url": "https://attack.mitre.org/tactics/TA0007/"
+        },
+        "Technique": {
+          "Name": "System Information Discovery",
+          "Id": "T1082",
+          "Url": "https://attack.mitre.org/techniques/T1082/"
+        }
+      },
+      {
+        "Tactic": {
+          "Name": "Initial Access",
+          "Id": "TA0001",
+          "Url": "https://attack.mitre.org/tactics/TA0001/"
+        },
+        "Technique": {
+          "Name": "Exploit Public-Facing Application",
+          "Id": "T1190",
+          "Url": "https://attack.mitre.org/techniques/T1190/"
+        }
+      }
+    ],
+
+    "CWE": [
+      {
+        "Weakness": {
+          "Id": "CWE-1104",
+          "Name": "Use of Unmaintained Third Party Components",
+          "Url": "https://cwe.mitre.org/data/definitions/1104.html"
+        }
+      },
+      {
+        "Weakness": {
+          "Id": "CWE-269",
+          "Name": "Improper Privilege Management",
+          "Url": "https://cwe.mitre.org/data/definitions/269.html"
+        }
+      }
+    ],
+
+    "Nist": [
+      {
+        "Control": {
+          "Id": "SI-2",
+          "Name": "Flaw Remediation",
+          "Url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+        }
+      },
+      {
+        "Control": {
+          "Id": "CM-7",
+          "Name": "Least Functionality",
+          "Url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+        }
+      },
+      {
+        "Control": {
+          "Id": "SI-4",
+          "Name": "System Monitoring",
+          "Url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+        }
+      }
+    ]
+  }
+}

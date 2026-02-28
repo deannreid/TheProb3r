@@ -1,0 +1,57 @@
+{
+  "SchemaVersion": 5,
+  "Id": "LSASS-PROTECTION",
+  "Name": "LSASS Protection Check",
+  "Function": "fncCheckLsassProtection",
+
+  "Category": {
+    "Primary": "Credential Exposure",
+    "Subcategories": [
+      "LSASS Protection",
+      "Credential Dumping"
+    ]
+  },
+
+  "Scopes": ["Workstation", "Server", "DMZ"],
+  "RequiresAdmin": true,
+  "Enabled": true,
+
+  "Description": "Checks if LSASS Protected Process Light (RunAsPPL) is enabled.",
+
+  "Mappings": {
+
+    "MitreAttack": [
+      {
+        "Tactic": {
+          "Name": "Credential Access",
+          "Id": "TA0006",
+          "Url": "https://attack.mitre.org/tactics/TA0006/"
+        },
+        "Technique": {
+          "Name": "OS Credential Dumping",
+          "Id": "T1003",
+          "SubTechnique": "001",
+          "Url": "https://attack.mitre.org/techniques/T1003/001/"
+        }
+      }
+    ],
+
+    "CWE": [
+      {
+        "Name": "Improper Protection of Sensitive Information",
+        "Id": "CWE-522",
+        "Url": "https://cwe.mitre.org/data/definitions/522.html"
+      }
+    ],
+
+    "Nist": [
+      {
+        "Control": {
+          "Id": "IA-5",
+          "Name": "Credential Protection",
+          "Url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+        }
+      }
+    ]
+  }
+}

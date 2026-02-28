@@ -1,0 +1,86 @@
+{
+  "SchemaVersion": 5,
+  "Id": "PS-SCRIPTBLOCK-LOGGING",
+  "Name": "PowerShell Script Block Logging Check",
+  "Function": "fncCheckPSScriptBlockLogging",
+
+  "Category": {
+    "Primary": "Logging & Monitoring",
+    "Subcategories": [
+      "PowerShell Monitoring",
+      "Endpoint Visibility",
+      "Forensic Logging"
+    ]
+  },
+
+  "Scopes": ["Workstation", "Server", "DMZ"],
+  "RequiresAdmin": false,
+  "Enabled": true,
+
+  "Description": "Checks whether PowerShell Script Block Logging (Event ID 4104) is enabled to ensure detailed PowerShell execution auditing.",
+
+  "Mappings": {
+
+    "MitreAttack": [
+      {
+        "Tactic": {
+          "Name": "Execution",
+          "Id": "TA0002",
+          "Url": "https://attack.mitre.org/tactics/TA0002/"
+        },
+        "Technique": {
+          "Name": "Command and Scripting Interpreter: PowerShell",
+          "Id": "T1059",
+          "SubTechnique": "001",
+          "Url": "https://attack.mitre.org/techniques/T1059/001/"
+        }
+      },
+      {
+        "Tactic": {
+          "Name": "Defense Evasion",
+          "Id": "TA0005",
+          "Url": "https://attack.mitre.org/tactics/TA0005/"
+        },
+        "Technique": {
+          "Name": "Impair Defenses",
+          "Id": "T1562",
+          "Url": "https://attack.mitre.org/techniques/T1562/"
+        }
+      }
+    ],
+
+    "CWE": [
+      {
+        "Weakness": {
+          "Id": "CWE-778",
+          "Name": "Insufficient Logging",
+          "Url": "https://cwe.mitre.org/data/definitions/778.html"
+        }
+      }
+    ],
+
+    "Nist": [
+      {
+        "Control": {
+          "Id": "AU-2",
+          "Name": "Audit Events",
+          "Url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+        }
+      },
+      {
+        "Control": {
+          "Id": "SI-4",
+          "Name": "System Monitoring",
+          "Url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+        }
+      }
+    ]
+  },
+
+  "References": [
+    {
+      "Title": "Microsoft - Event ID 4104 Script Block Logging",
+      "Url": "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging"
+    }
+  ]
+}

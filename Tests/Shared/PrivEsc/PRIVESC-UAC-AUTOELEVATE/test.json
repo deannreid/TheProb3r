@@ -1,0 +1,60 @@
+{
+  "SchemaVersion": 5,
+  "Id": "PRIVESC-UAC-AUTOELEVATE",
+  "Name": "Auto-Elevated Binary & UAC Bypass Surface Analysis",
+  "Function": "fncGetLolbinElevationCandidates",
+
+  "Category": {
+    "Primary": "Privilege Escalation",
+    "Subcategories": [
+      "UAC Bypass",
+      "Signed Binary Proxy Execution",
+      "Installer Misconfiguration"
+    ]
+  },
+
+  "Scopes": ["Workstation", "Server", "DMZ"],
+  "RequiresAdmin": false,
+  "Enabled": true,
+
+  "Description": "Enumerates auto-elevated and commonly abused signed binaries (LOLBins) and checks for UAC hijack registry keys and AlwaysInstallElevated policy misconfiguration.",
+
+  "Mappings": {
+    "MitreAttack": [
+      {
+        "Tactic": {
+          "Name": "Privilege Escalation",
+          "Id": "TA0004",
+          "Url": "https://attack.mitre.org/tactics/TA0004/"
+        },
+        "Technique": {
+          "Name": "Abuse Elevation Control Mechanism",
+          "Id": "T1548",
+          "SubTechnique": "002",
+          "Url": "https://attack.mitre.org/techniques/T1548/002/"
+        }
+      },
+      {
+        "Tactic": {
+          "Name": "Defense Evasion",
+          "Id": "TA0005",
+          "Url": "https://attack.mitre.org/tactics/TA0005/"
+        },
+        "Technique": {
+          "Name": "Signed Binary Proxy Execution",
+          "Id": "T1218",
+          "Url": "https://attack.mitre.org/techniques/T1218/"
+        }
+      }
+    ],
+    "CWE": [
+      {
+        "Weakness": {
+          "Name": "Improper Privilege Management",
+          "Id": "CWE-269",
+          "Url": "https://cwe.mitre.org/data/definitions/269.html"
+        }
+      }
+    ]
+  }
+}

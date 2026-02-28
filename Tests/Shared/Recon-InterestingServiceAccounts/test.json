@@ -1,9 +1,0 @@
-{
-  "Id": "INTERESTING-SERVICE-ACCOUNTS",
-  "Name": "Interesting Service Accounts",
-  "Function": "fncGetInterestingServiceAccounts",
-  "Category": "Reconnaissance",
-  "Scopes": ["Workstation", "Server", "DMZ"],
-  "RequiresAdmin": false,
-  "Description": "Enumerates services running as non built-in accounts which may be useful for lateral movement or privilege escalation."
-}

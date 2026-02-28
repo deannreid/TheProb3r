@@ -1,0 +1,58 @@
+{
+  "SchemaVersion": 5,
+  "Id": "CREDENTIALS-DPAPI-EXPOSURE",
+  "Name": "DPAPI Exposure",
+  "Function": "fncGetCredentialsDpapiExposure",
+
+  "Category": {
+    "Primary": "Credential Exposure",
+    "Subcategories": [
+      "DPAPI",
+      "Credential Storage"
+    ]
+  },
+
+  "Scopes": ["Workstation", "Server"],
+  "RequiresAdmin": false,
+  "Enabled": true,
+
+  "Description": "Detects readable DPAPI masterkey folders and machine DPAPI blobs accessible to low-privileged users.",
+
+  "Mappings": {
+
+    "MitreAttack": [
+      {
+        "Tactic": {
+          "Name": "Credential Access",
+          "Id": "TA0006",
+          "Url": "https://attack.mitre.org/tactics/TA0006/"
+        },
+        "Technique": {
+          "Name": "Credentials from Password Stores",
+          "Id": "T1555",
+          "Url": "https://attack.mitre.org/techniques/T1555/"
+        }
+      }
+    ],
+
+    "CWE": [
+      {
+        "Weakness": {
+          "Id": "CWE-732",
+          "Name": "Incorrect Permission Assignment for Critical Resource",
+          "Url": "https://cwe.mitre.org/data/definitions/732.html"
+        }
+      }
+    ],
+
+    "Nist": [
+      {
+        "Control": {
+          "Id": "AC-3",
+          "Name": "Access Enforcement",
+          "Url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+        }
+      }
+    ]
+  }
+}

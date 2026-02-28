@@ -1,0 +1,78 @@
+{
+  "SchemaVersion": 5,
+  "Id": "RECON-INSTALLED-SOFTWARE-INVENTORY-BASIC",
+  "Name": "Installed Software Inventory (Basic)",
+  "Function": "fncGetReconInstalledSoftwareInventory",
+
+  "Category": {
+    "Primary": "Reconnaissance",
+    "Subcategories": [
+      "Software Discovery",
+      "Exploit Surface Identification",
+      "Offensive Tool Detection"
+    ]
+  },
+
+  "Scopes": ["Workstation", "Server", "DMZ"],
+  "RequiresAdmin": false,
+  "Enabled": true,
+
+  "Description": "Enumerates installed software from registry (32/64-bit and per-user locations) and correlates exploit density via Searchsploit along with offensive tooling indicators.",
+
+  "Mappings": {
+
+    "MitreAttack": [
+      {
+        "Tactic": {
+          "Name": "Discovery",
+          "Id": "TA0007",
+          "Url": "https://attack.mitre.org/tactics/TA0007/"
+        },
+        "Technique": {
+          "Name": "Software Discovery",
+          "Id": "T1518",
+          "Url": "https://attack.mitre.org/techniques/T1518/"
+        }
+      },
+      {
+        "Tactic": {
+          "Name": "Discovery",
+          "Id": "TA0007",
+          "Url": "https://attack.mitre.org/tactics/TA0007/"
+        },
+        "Technique": {
+          "Name": "System Information Discovery",
+          "Id": "T1082",
+          "Url": "https://attack.mitre.org/techniques/T1082/"
+        }
+      }
+    ],
+
+    "CWE": [
+      {
+        "Weakness": {
+          "Id": "CWE-1104",
+          "Name": "Use of Unmaintained Third Party Components",
+          "Url": "https://cwe.mitre.org/data/definitions/1104.html"
+        }
+      }
+    ],
+
+    "Nist": [
+      {
+        "Control": {
+          "Id": "CM-8",
+          "Name": "System Component Inventory",
+          "Url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+        }
+      },
+      {
+        "Control": {
+          "Id": "SI-2",
+          "Name": "Flaw Remediation",
+          "Url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+        }
+      }
+    ]
+  }
+}

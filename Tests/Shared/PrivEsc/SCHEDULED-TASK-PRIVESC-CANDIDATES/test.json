@@ -1,0 +1,47 @@
+{
+  "SchemaVersion": 5,
+  "Id": "SCHEDULED-TASK-PRIVESC-CANDIDATES",
+  "Name": "Scheduled Task Privilege Escalation Candidates",
+  "Function": "fncGetScheduledTaskPrivEscCandidates",
+
+  "Category": {
+    "Primary": "Privilege Escalation",
+    "Subcategories": [
+      "Scheduled Task Abuse",
+      "Writable Executable",
+      "Writable Directory"
+    ]
+  },
+
+  "Scopes": ["Workstation", "Server", "DMZ"],
+  "RequiresAdmin": false,
+  "Enabled": true,
+
+  "Description": "Identifies scheduled tasks running with elevated principals that reference executables or directories writable by the current user.",
+
+  "Mappings": {
+    "MitreAttack": [
+      {
+        "Tactic": {
+          "Name": "Privilege Escalation",
+          "Id": "TA0004",
+          "Url": "https://attack.mitre.org/tactics/TA0004/"
+        },
+        "Technique": {
+          "Name": "Scheduled Task/Job",
+          "Id": "T1053",
+          "Url": "https://attack.mitre.org/techniques/T1053/"
+        }
+      }
+    ],
+    "CWE": [
+      {
+        "Weakness": {
+          "Name": "Incorrect Permission Assignment for Critical Resource",
+          "Id": "CWE-732",
+          "Url": "https://cwe.mitre.org/data/definitions/732.html"
+        }
+      }
+    ]
+  }
+}

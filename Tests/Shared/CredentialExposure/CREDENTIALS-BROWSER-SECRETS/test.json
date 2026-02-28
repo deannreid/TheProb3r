@@ -1,0 +1,65 @@
+{
+  "SchemaVersion": 5,
+  "Id": "CREDENTIALS-BROWSER-SECRETS",
+  "Name": "Browser Credential Store Exposure",
+  "Function": "fncGetCredentialsBrowserSecretsExposure",
+
+  "Category": {
+    "Primary": "Credential Exposure",
+    "Subcategories": [
+      "Browser Secrets",
+      "Local Credential Stores"
+    ]
+  },
+
+  "Scopes": ["Workstation"],
+  "RequiresAdmin": false,
+  "Enabled": true,
+
+  "Description": "Detects readable browser credential databases and encryption key stores accessible to low-privileged users.",
+
+  "Mappings": {
+
+    "MitreAttack": [
+      {
+        "Tactic": {
+          "Name": "Credential Access",
+          "Id": "TA0006",
+          "Url": "https://attack.mitre.org/tactics/TA0006/"
+        },
+        "Technique": {
+          "Name": "Credentials from Password Stores",
+          "Id": "T1555",
+          "Url": "https://attack.mitre.org/techniques/T1555/"
+        }
+      }
+    ],
+
+    "CWE": [
+      {
+        "Weakness": {
+          "Id": "CWE-732",
+          "Name": "Incorrect Permission Assignment for Critical Resource",
+          "Url": "https://cwe.mitre.org/data/definitions/732.html"
+        }
+      }
+    ],
+
+    "Nist": [
+      {
+        "Control": {
+          "Id": "AC-3",
+          "Name": "Access Enforcement",
+          "Url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+        }
+      }
+    ]
+  },
+
+  "References": [
+    {
+      "Title": "Chromium password storage overview",
+      "Url": ""
+    }
+  ]
+}

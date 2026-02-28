@@ -1,9 +1,0 @@
-{
-  "Id": "UNQUOTED-SERVICE-PATHS",
-  "Name": "Unquoted Service Path Vulnerabilities",
-  "Function": "fncGetUnquotedServicePaths",
-  "Category": "Privilege Escalation",
-  "Scopes": ["Workstation", "Server", "DMZ"],
-  "RequiresAdmin": false,
-  "Description": "Identifies services with unquoted executable paths that contain user-writable directory segments which may allow service path hijacking."
-}

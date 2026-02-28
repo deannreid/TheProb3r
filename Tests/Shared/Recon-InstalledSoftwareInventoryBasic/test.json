@@ -1,9 +1,0 @@
-{
-  "Id": "RECON-INSTALLED-SOFTWARE-INVENTORY",
-  "Name": "Installed Software Inventory (Basic)",
-  "Function": "fncGetReconInstalledSoftwareInventory",
-  "Category": "Reconnaissance",
-  "Scopes": ["Workstation", "Server", "DMZ"],
-  "RequiresAdmin": false,
-  "Description": "Enumerates installed software from registry (32/64-bit), MSI, and common high-risk tooling indicators."
-}

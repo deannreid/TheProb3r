@@ -1,0 +1,79 @@
+{
+  "SchemaVersion": 5,
+  "Id": "LATMOV-REMOTE-SERVICE-EXPOSURE",
+  "Name": "Remote Service Lateral Movement Exposure",
+  "Function": "fncGetLateralMovementRemoteServiceExposure",
+
+  "Category": {
+    "Primary": "Lateral Movement",
+    "Subcategories": [
+      "Service Abuse",
+      "Remote Execution",
+      "Privilege Escalation Surface"
+    ]
+  },
+
+  "Scopes": ["Workstation", "Server", "DMZ"],
+  "RequiresAdmin": false,
+  "Enabled": true,
+
+  "Description": "Identifies services running as LocalSystem and configured for automatic start that may be abused for remote service creation, modification, or lateral movement.",
+
+  "Mappings": {
+
+    "MitreAttack": [
+      {
+        "Tactic": {
+          "Name": "Lateral Movement",
+          "Id": "TA0008",
+          "Url": "https://attack.mitre.org/tactics/TA0008/"
+        },
+        "Technique": {
+          "Name": "Service Execution",
+          "Id": "T1569",
+          "SubTechnique": "002",
+          "Url": "https://attack.mitre.org/techniques/T1569/002/"
+        }
+      },
+      {
+        "Tactic": {
+          "Name": "Lateral Movement",
+          "Id": "TA0008",
+          "Url": "https://attack.mitre.org/tactics/TA0008/"
+        },
+        "Technique": {
+          "Name": "Remote Services",
+          "Id": "T1021",
+          "Url": "https://attack.mitre.org/techniques/T1021/"
+        }
+      }
+    ],
+
+    "CWE": [
+      {
+        "Weakness": {
+          "Id": "CWE-269",
+          "Name": "Improper Privilege Management",
+          "Url": "https://cwe.mitre.org/data/definitions/269.html"
+        }
+      }
+    ],
+
+    "Nist": [
+      {
+        "Control": {
+          "Id": "AC-6",
+          "Name": "Least Privilege",
+          "Url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+        }
+      },
+      {
+        "Control": {
+          "Id": "SI-4",
+          "Name": "System Monitoring",
+          "Url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+        }
+      }
+    ]
+  }
+}

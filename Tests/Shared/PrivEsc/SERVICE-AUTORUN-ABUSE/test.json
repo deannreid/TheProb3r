@@ -1,0 +1,95 @@
+{
+  "SchemaVersion": 5,
+  "Id": "SERVICE-AUTORUN-ABUSE",
+  "Name": "Service and Autorun Abuse",
+  "Function": "fncServiceAndAutorunAbuse",
+
+  "Category": {
+    "Primary": "Privilege Escalation",
+    "Subcategories": [
+      "Service Misconfiguration",
+      "Binary Overwrite",
+      "Autorun Persistence Abuse"
+    ]
+  },
+
+  "Scopes": ["Workstation", "Server", "DMZ"],
+  "RequiresAdmin": false,
+  "Enabled": true,
+
+  "Description": "Identifies writable high-privilege service binaries, unquoted service paths, writable service directories, autorun-executed binaries, and token posture risks that can enable privilege escalation or persistence.",
+
+  "Mappings": {
+
+    "MitreAttack": [
+      {
+        "Tactic": {
+          "Name": "Privilege Escalation",
+          "Id": "TA0004",
+          "Url": "https://attack.mitre.org/tactics/TA0004/"
+        },
+        "Technique": {
+          "Name": "Service Execution",
+          "Id": "T1569",
+          "SubTechnique": "002",
+          "Url": "https://attack.mitre.org/techniques/T1569/002/"
+        }
+      },
+      {
+        "Tactic": {
+          "Name": "Persistence",
+          "Id": "TA0003",
+          "Url": "https://attack.mitre.org/tactics/TA0003/"
+        },
+        "Technique": {
+          "Name": "Boot or Logon Autostart Execution",
+          "Id": "T1547",
+          "SubTechnique": "001",
+          "Url": "https://attack.mitre.org/techniques/T1547/001/"
+        }
+      },
+      {
+        "Tactic": {
+          "Name": "Privilege Escalation",
+          "Id": "TA0004",
+          "Url": "https://attack.mitre.org/tactics/TA0004/"
+        },
+        "Technique": {
+          "Name": "Access Token Manipulation",
+          "Id": "T1134",
+          "Url": "https://attack.mitre.org/techniques/T1134/"
+        }
+      }
+    ],
+
+    "CWE": [
+      {
+        "Name": "Incorrect Permission Assignment for Critical Resource",
+        "Id": "CWE-732",
+        "Url": "https://cwe.mitre.org/data/definitions/732.html"
+      },
+      {
+        "Name": "Improper Privilege Management",
+        "Id": "CWE-269",
+        "Url": "https://cwe.mitre.org/data/definitions/269.html"
+      }
+    ],
+
+    "Nist": [
+      {
+        "Control": {
+          "Id": "AC-6",
+          "Name": "Least Privilege",
+          "Url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+        }
+      },
+      {
+        "Control": {
+          "Id": "CM-7",
+          "Name": "Least Functionality",
+          "Url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+        }
+      }
+    ]
+  }
+}

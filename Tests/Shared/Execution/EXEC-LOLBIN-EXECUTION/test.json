@@ -1,0 +1,68 @@
+{
+  "SchemaVersion": 5,
+  "Id": "EXEC-LOLBIN-EXECUTION",
+  "Name": "LOLBIN Execution Surfaces",
+  "Function": "fncGetExecutionLOLBINSurfaces",
+
+  "Category": {
+    "Primary": "Execution",
+    "Subcategories": [
+      "LOLBIN Abuse",
+      "Living off the Land",
+      "Service Execution"
+    ]
+  },
+
+  "Scopes": ["Workstation", "Server", "DMZ"],
+  "RequiresAdmin": false,
+  "Enabled": true,
+
+  "Description": "Identifies high-risk LOLBIN execution surfaces referenced by Windows services.",
+
+  "Mappings": {
+    "MitreAttack": [
+      {
+        "Tactic": {
+          "Name": "Execution",
+          "Id": "TA0002",
+          "Url": "https://attack.mitre.org/tactics/TA0002/"
+        },
+        "Technique": {
+          "Name": "Command and Scripting Interpreter",
+          "Id": "T1059",
+          "SubTechnique": "",
+          "Url": "https://attack.mitre.org/techniques/T1059/"
+        }
+      },
+      {
+        "Tactic": {
+          "Name": "Defense Evasion",
+          "Id": "TA0005",
+          "Url": "https://attack.mitre.org/tactics/TA0005/"
+        },
+        "Technique": {
+          "Name": "Signed Binary Proxy Execution",
+          "Id": "T1218",
+          "SubTechnique": "",
+          "Url": "https://attack.mitre.org/techniques/T1218/"
+        }
+      }
+    ],
+
+    "CWE": [
+      {
+        "Name": "Improper Restriction of Operations",
+        "Id": "CWE-284",
+        "Url": "https://cwe.mitre.org/data/definitions/284.html"
+      }
+    ],
+
+    "Nist": [
+      {
+        "Name": "Least Functionality",
+        "Control": "CM-7",
+        "Url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+      }
+    ]
+  }
+}

@@ -1,9 +1,0 @@
-{
-  "Id": "TOKEN-AND-PRIVILEGE-INFO",
-  "Name": "Token and Privilege Review",
-  "Function": "fncGetTokenAndPrivilegeInfo",
-  "Category": "Privilege Escalation",
-  "Scopes": ["Workstation", "Server", "DMZ"],
-  "RequiresAdmin": false,
-  "Description": "Enumerates current user token privileges and group memberships, highlighting high-risk privileges commonly abused for privilege escalation."
-}

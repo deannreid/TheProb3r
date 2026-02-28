@@ -1,0 +1,84 @@
+{
+  "SchemaVersion": 5,
+  "Id": "DEFENSEEVADE-SECURITY-CONTROL-TAMPERING",
+  "Name": "Security Control Tampering Indicators",
+  "Function": "fncGetDefenseEvasionSecurityControlTampering",
+
+  "Category": {
+    "Primary": "Defense Evasion",
+    "Subcategories": [
+      "Impair Defenses",
+      "Service Tampering",
+      "Security Monitoring Evasion"
+    ]
+  },
+
+  "Scopes": ["Workstation", "Server", "DMZ"],
+  "RequiresAdmin": false,
+  "Enabled": true,
+
+  "Description": "Identifies disabled or misconfigured core security monitoring services such as Microsoft Defender, EDR components, and Windows Security Health services.",
+
+  "Mappings": {
+    "MitreAttack": [
+      {
+        "Tactic": {
+          "Name": "Defense Evasion",
+          "Id": "TA0005",
+          "Url": "https://attack.mitre.org/tactics/TA0005/"
+        },
+        "Technique": {
+          "Name": "Impair Defenses",
+          "Id": "T1562",
+          "SubTechnique": "",
+          "Url": "https://attack.mitre.org/techniques/T1562/"
+        }
+      },
+      {
+        "Tactic": {
+          "Name": "Defense Evasion",
+          "Id": "TA0005",
+          "Url": "https://attack.mitre.org/tactics/TA0005/"
+        },
+        "Technique": {
+          "Name": "Disable or Modify Tools",
+          "Id": "T1562.001",
+          "SubTechnique": "",
+          "Url": "https://attack.mitre.org/techniques/T1562/001/"
+        }
+      }
+    ],
+    "CWE": [
+      {
+        "Weakness": {
+          "Name": "Protection Mechanism Failure",
+          "Id": "CWE-693",
+          "Url": "https://cwe.mitre.org/data/definitions/693.html"
+        }
+      }
+    ],
+    "Nist": [
+      {
+        "Control": {
+          "Name": "System Monitoring",
+          "Id": "SI-4",
+          "Url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+        }
+      },
+      {
+        "Control": {
+          "Name": "Configuration Change Control",
+          "Id": "CM-3",
+          "Url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+        }
+      }
+    ]
+  },
+
+  "References": [
+    {
+      "Title": "Microsoft Defender for Endpoint - Tamper Protection",
+      "Url": "https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/prevent-changes-to-security-settings-with-tamper-protection"
+    }
+  ]
+}

@@ -1,9 +1,0 @@
-{
-  "Id": "DEFENSEEVADE-SECURITY-CONTROL-TAMPERING",
-  "Name": "Security Control Tampering Indicators",
-  "Function": "fncGetDefenseEvasionSecurityControlTampering",
-  "Category": "Defense Evasion",
-  "Scopes": ["Workstation", "Server", "DMZ"],
-  "RequiresAdmin": false,
-  "Description": "Identifies potential security control tampering including disabled services and suspicious configurations."
-}
